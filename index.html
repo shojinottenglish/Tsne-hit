@@ -1,0 +1,3006 @@
+<!DOCTYPE html>
+<html lang="ja" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tsunehito & The Mysterious Adventure - Slash Reading</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        serifjp: ['"Noto Serif JP"', 'serif'],
+                    },
+                    colors: {
+                        chrono: {
+                            950: '#060913',
+                            900: '#0b1124',
+                            800: '#152042',
+                            700: '#1f3061',
+                            400: '#38bdf8',
+                            300: '#7dd3fc',
+                            gold: '#f59e0b',
+                            goldlight: '#fcd34d'
+                        }
+                    },
+                    animation: {
+                        'spin-slow': 'spin 60s linear infinite',
+                        'spin-reverse': 'spin-rev 45s linear infinite',
+                        'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'spin-rev': {
+                            '0%': { transform: 'rotate(360deg)' },
+                            '100%': { transform: 'rotate(0deg)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 0.4, filter: 'drop-shadow(0 0 8px rgba(56, 189, 248, 0.4))' },
+                            '50%': { opacity: 0.9, filter: 'drop-shadow(0 0 16px rgba(56, 189, 248, 0.9))' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #060913;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(245, 158, 11, 0.06) 0%, transparent 40%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060913;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+        .chunk-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .chunk-card:hover {
+            transform: translateY(-2px);
+        }
+        .chunk-active {
+            border-color: #38bdf8 !important;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(15, 23, 42, 0.9) 100%) !important;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.25), inset 0 0 10px rgba(56, 189, 248, 0.1);
+        }
+        .chunk-weak {
+            border-left: 3px solid #f59e0b !important;
+        }
+        .glass-panel {
+            background: rgba(11, 17, 36, 0.78);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-sky-500/30 selection:text-sky-200">
+
+    <!-- Background Decorative Clock Gear SVG -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 flex items-center justify-center opacity-10">
+        <svg class="w-[650px] h-[650px] animate-spin-reverse text-sky-400" viewBox="0 0 200 200" fill="none">
+            <circle cx="100" cy="100" r="88" stroke="currentColor" stroke-width="1" stroke-dasharray="4 6"/>
+            <circle cx="100" cy="100" r="75" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="100" cy="100" r="45" stroke="#f59e0b" stroke-width="1" stroke-dasharray="8 4"/>
+            <!-- 13 Clock Marks -->
+            <g stroke="currentColor" stroke-width="2">
+                <line x1="100" y1="12" x2="100" y2="24" stroke="#f59e0b" stroke-width="3"/>
+                <line x1="140" y1="22" x2="135" y2="32"/>
+                <line x1="171" y1="48" x2="161" y2="55"/>
+                <line x1="186" y1="86" x2="174" y2="88"/>
+                <line x1="180" y1="127" x2="169" y2="123"/>
+                <line x1="156" y1="162" x2="148" y2="153"/>
+                <line x1="119" y1="184" x2="116" y2="172"/>
+                <line x1="78" y1="184" x2="81" y2="172"/>
+                <line x1="42" y1="162" x2="50" y2="153"/>
+                <line x1="18" y1="127" x2="29" y2="123"/>
+                <line x1="13" y1="86" x2="25" y2="88"/>
+                <line x1="28" y1="48" x2="38" y2="55"/>
+                <line x1="59" y1="22" x2="64" y2="32"/>
+            </g>
+            <line x1="100" y1="100" x2="100" y2="32" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="100" y1="100" x2="138" y2="75" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="100" cy="100" r="5" fill="#f59e0b"/>
+        </svg>
+    </div>
+
+    <!-- Top Header -->
+    <header class="sticky top-0 z-30 glass-panel border-b border-slate-800/80 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand / Title -->
+            <div class="flex items-center gap-3">
+                <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg bg-slate-800/80 text-sky-400 hover:bg-slate-700">
+                    <i class="ph ph-list text-xl"></i>
+                </button>
+                <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500/20 to-amber-500/20 border border-sky-400/40 shadow-inner">
+                    <i class="ph-fill ph-key text-amber-400 text-xl animate-pulse-glow"></i>
+                    <span class="absolute -bottom-1 -right-1 text-[10px] font-cinzel font-bold bg-slate-900 text-sky-300 px-1 rounded border border-sky-500/40">XIII</span>
+                </div>
+                <div>
+                    <h1 class="font-cinzel font-bold text-base sm:text-lg tracking-wider text-white flex items-center gap-2">
+                        TSUNEHITO <span class="text-xs font-sans font-normal px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">英検4級・5級レベル</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 hidden sm:block">やさしい英語で読む「時をこえる不思議な冒険 ＆ 世界の裏側」チャンク音読アプリ</p>
+                </div>
+            </div>
+
+            <!-- Controls Right -->
+            <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+                <!-- Weak Filter Toggle -->
+                <button id="filterWeakBtn" onclick="toggleWeakFilter()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800/70 text-slate-300 hover:border-amber-500/50 transition">
+                    <i class="ph-fill ph-star text-amber-400"></i>
+                    <span>苦手のみ</span>
+                    <span id="weakCountBadge" class="ml-1 px-1.5 py-0.2 bg-amber-500/20 text-amber-300 rounded-full text-xs font-bold">0</span>
+                </button>
+
+                <!-- Display Mode Selector -->
+                <div class="flex items-center bg-slate-900/90 p-1 rounded-lg border border-slate-800 text-xs">
+                    <button onclick="setViewMode('card')" id="viewCardBtn" class="px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 font-medium transition flex items-center gap-1">
+                        <i class="ph ph-squares-four"></i> <span class="hidden md:inline">カード</span>
+                    </button>
+                    <button onclick="setViewMode('inline')" id="viewInlineBtn" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition flex items-center gap-1">
+                        <i class="ph ph-text-align-left"></i> <span class="hidden md:inline">スラッシュ本文</span>
+                    </button>
+                </div>
+
+                <!-- Japanese Toggle -->
+                <button id="toggleJpBtn" onclick="toggleJapanese()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-sky-500/40 bg-sky-500/10 text-sky-300 hover:bg-sky-500/20 transition">
+                    <i class="ph ph-translate text-base"></i>
+                    <span id="jpBtnText">日本語訳 ON</span>
+                </button>
+
+                <!-- Voice Settings Modal Button -->
+                <button onclick="toggleVoiceModal()" class="p-2 rounded-lg border border-slate-700 bg-slate-800/80 text-slate-300 hover:text-sky-300 hover:border-sky-500/50 transition" title="音声設定">
+                    <i class="ph ph-speaker-high text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <div class="flex-1 max-w-7xl w-full mx-auto flex relative z-10 pb-36">
+        
+        <!-- Left Sidebar: Book & Chapter Navigation -->
+        <aside id="sidebar" class="fixed lg:sticky top-[61px] left-0 z-20 w-72 h-[calc(100vh-61px)] glass-panel border-r border-slate-800/80 overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out p-4 flex flex-col justify-between">
+            <div>
+                <!-- Rules Banner -->
+                <div class="mb-5 p-3 rounded-xl bg-gradient-to-br from-slate-900 to-slate-800/80 border border-emerald-500/30 text-xs text-slate-300 space-y-1.5">
+                    <div class="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                        <i class="ph-fill ph-student"></i>
+                        <span>英検4級・5級 スラッシュルール</span>
+                    </div>
+                    <p class="text-[11px] leading-relaxed text-slate-400">
+                        ① 主語＋動詞の後 / ② 前置詞（in, on, to, at, with）の前 / ③ 接続詞（and, but, because, if, when）の前 / ④ 時・場所の言葉の前
+                    </p>
+                </div>
+
+                <!-- Book Selector -->
+                <div class="space-y-4" id="chapterNavContainer">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Story Status Box -->
+            <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs text-slate-400 flex items-center justify-between">
+                <span class="flex items-center gap-1.5">
+                    <i class="ph-fill ph-clock-counter-clockwise text-sky-400"></i>
+                    Clock Tower: 13:00
+                </span>
+                <button onclick="clearAllWeak()" class="text-slate-500 hover:text-rose-400 transition underline text-[11px]">苦手リセット</button>
+            </div>
+        </aside>
+
+        <!-- Backdrop for Mobile Sidebar -->
+        <div id="sidebarBackdrop" onclick="closeSidebar()" class="fixed inset-0 bg-black/60 z-10 hidden lg:hidden"></div>
+
+        <!-- Right Reader Area -->
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto w-full">
+            <!-- Chapter Header Banner -->
+            <div id="chapterHeader" class="mb-8 p-6 rounded-2xl bg-gradient-to-r from-slate-900/95 via-chrono-800/50 to-slate-900/95 border border-sky-500/20 shadow-xl relative overflow-hidden">
+                <div class="relative z-10">
+                    <div class="flex items-center gap-2 text-xs font-cinzel tracking-widest uppercase text-amber-400 mb-1" id="bookSubtitle">
+                        BOOK 1: TSUNEHITO AND THE MYSTERIOUS ADVENTURE THROUGH TIME
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white font-cinzel tracking-wide mb-1" id="chapterTitleEn">
+                        Chapter 1: A Boy Who Seemed Like an Adult
+                    </h2>
+                    <p class="text-sm text-sky-300/90 font-serifjp" id="chapterTitleJp">
+                        第1章　大人びた少年
+                    </p>
+                </div>
+                <i class="ph-thin ph-hourglass-high text-8xl text-sky-400/10 absolute -right-3 -bottom-4 pointer-events-none"></i>
+            </div>
+
+            <!-- Quick Help Tip -->
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 rounded-xl bg-slate-900/70 border border-slate-800 text-xs text-slate-400">
+                <div class="flex items-center gap-2">
+                    <i class="ph-fill ph-info text-sky-400 text-base"></i>
+                    <span>任意のチャンクをタップすると<strong>そのチャンクから音声再生</strong>します。「1チャンクリピート」をONにすると同じチャンクを反復練習できます。</span>
+                </div>
+                <div class="flex items-center gap-3 text-[11px] text-slate-400">
+                    <span><kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-300">Space</kbd> 再生/停止</span>
+                    <span><kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-300">←</kbd> <kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-300">→</kbd> 前後移動</span>
+                </div>
+            </div>
+
+            <!-- Sentences & Chunks Container -->
+            <div id="readerContent" class="space-y-6">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Chapter Footer Navigation -->
+            <div class="mt-12 pt-6 border-t border-slate-800 flex items-center justify-between gap-4">
+                <button id="prevChapterBtn" onclick="changeChapter(-1)" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-sm text-slate-300 transition disabled:opacity-40 disabled:pointer-events-none">
+                    <i class="ph ph-caret-left"></i> 前のチャプター
+                </button>
+                <button id="nextChapterBtn" onclick="changeChapter(1)" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sm text-sky-200 font-medium transition disabled:opacity-40 disabled:pointer-events-none">
+                    次のチャプター <i class="ph ph-caret-right"></i>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Sticky Audio Player Bar -->
+    <div class="fixed bottom-0 left-0 right-0 z-40 glass-panel border-t border-sky-500/30 shadow-[0_-10px_30px_rgba(0,0,0,0.6)] px-3 py-2.5 sm:px-6 sm:py-3">
+        <div class="max-w-6xl mx-auto flex flex-col gap-2">
+            
+            <!-- Active Chunk Monitor Bar -->
+            <div class="flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg bg-slate-950/90 border border-slate-800/90">
+                <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                    <span id="playingStatusDot" class="w-2.5 h-2.5 rounded-full bg-slate-600 shrink-0"></span>
+                    <div class="truncate text-xs sm:text-sm">
+                        <span id="activeChunkEn" class="font-medium text-sky-300 mr-2">チャンクを選択して再生してください</span>
+                        <span id="activeChunkJp" class="text-slate-400 text-xs font-serifjp"></span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <span id="chunkProgressText" class="text-[11px] font-mono text-slate-400">0 / 0</span>
+                    <button id="activeWeakBtn" onclick="toggleCurrentChunkWeak()" class="p-1 rounded hover:bg-slate-800 text-slate-500 transition" title="現在のチャンクを苦手登録">
+                        <i class="ph-fill ph-star text-base"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Player Controls Row -->
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <!-- Left: Loop Mode Selector -->
+                <div class="flex items-center gap-1.5">
+                    <button id="repeatModeBtn" onclick="cycleRepeatMode()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border border-sky-500/40 bg-sky-500/15 text-sky-300 hover:bg-sky-500/25 transition">
+                        <i id="repeatModeIcon" class="ph-bold ph-arrows-clockwise text-sm"></i>
+                        <span id="repeatModeLabel">連続再生</span>
+                    </button>
+
+                    <!-- Pause interval between chunks -->
+                    <button id="pauseIntervalBtn" onclick="cyclePauseInterval()" class="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs border border-slate-700 bg-slate-800/80 text-slate-300 hover:border-slate-600 transition" title="チャンク間のポーズ（リピート・シャドーイング用）">
+                        <i class="ph ph-timer text-sky-400"></i>
+                        <span id="pauseIntervalLabel">間隔: 0.4秒</span>
+                    </button>
+                </div>
+
+                <!-- Center: Transport Controls -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <button onclick="stepChunk(-1)" class="p-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 transition" title="前のチャンク">
+                        <i class="ph-fill ph-skip-back text-base sm:text-lg"></i>
+                    </button>
+                    <button id="playPauseBtn" onclick="togglePlay()" class="w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 hover:from-sky-300 hover:to-blue-500 text-slate-950 font-bold flex items-center justify-center shadow-lg shadow-sky-500/25 transition transform active:scale-95">
+                        <i id="playPauseIcon" class="ph-fill ph-play text-xl"></i>
+                    </button>
+                    <button onclick="replayCurrentChunk()" class="p-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-sky-300 border border-slate-700 transition" title="このチャンクをもう一度聞く">
+                        <i class="ph-bold ph-arrow-counter-clockwise text-base sm:text-lg"></i>
+                    </button>
+                    <button onclick="stepChunk(1)" class="p-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 transition" title="次のチャンク">
+                        <i class="ph-fill ph-skip-forward text-base sm:text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Right: Speed Control -->
+                <div class="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
+                    <i class="ph ph-gauge text-slate-400 text-sm ml-1.5 mr-0.5 hidden md:inline"></i>
+                    <button onclick="setSpeed(0.6)" data-speed="0.6" class="speed-btn px-2 py-1 rounded-lg text-[11px] font-mono text-slate-400 hover:text-white transition">0.6x</button>
+                    <button onclick="setSpeed(0.8)" data-speed="0.8" class="speed-btn px-2 py-1 rounded-lg text-[11px] font-mono text-slate-400 hover:text-white transition">0.8x</button>
+                    <button onclick="setSpeed(1.0)" data-speed="1.0" class="speed-btn px-2 py-1 rounded-lg text-[11px] font-mono bg-sky-500/25 text-sky-300 font-bold border border-sky-500/40 transition">1.0x</button>
+                    <button onclick="setSpeed(1.2)" data-speed="1.2" class="speed-btn px-2 py-1 rounded-lg text-[11px] font-mono text-slate-400 hover:text-white transition">1.2x</button>
+                    <button onclick="setSpeed(1.5)" data-speed="1.5" class="speed-btn px-2 py-1 rounded-lg text-[11px] font-mono text-slate-400 hover:text-white transition">1.5x</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voice & Audio Settings Modal -->
+    <div id="voiceModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="w-full max-w-md rounded-2xl bg-slate-900 border border-slate-700 p-6 shadow-2xl space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2 text-white font-semibold">
+                    <i class="ph-fill ph-Waveform text-sky-400 text-xl"></i>
+                    <span>ネイティブ音声エンジン設定</span>
+                </div>
+                <button onclick="toggleVoiceModal()" class="text-slate-400 hover:text-white">
+                    <i class="ph ph-x text-xl"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-sm">
+                <!-- Engine Choice -->
+                <div class="space-y-2">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-400">音声モード選択</label>
+                    <div class="grid grid-cols-1 gap-2">
+                        <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-700 bg-slate-800/60 cursor-pointer hover:border-sky-500/50">
+                            <input type="radio" name="ttsEngine" value="browser" checked onchange="changeTtsEngine(this.value)" class="mt-1 accent-sky-400">
+                            <div>
+                                <div class="font-medium text-white">ブラウザ内蔵 高品質ネイティブ音声（推奨・遅延なし）</div>
+                                <div class="text-xs text-slate-400 mt-0.5">Google US English / Apple Samantha / Microsoft Aria 等の自然音声を利用して瞬時にチャンク再生します。</div>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-700 bg-slate-800/60 cursor-pointer hover:border-sky-500/50">
+                            <input type="radio" name="ttsEngine" value="gemini" onchange="changeTtsEngine(this.value)" class="mt-1 accent-sky-400">
+                            <div>
+                                <div class="font-medium text-amber-300 flex items-center gap-1.5">
+                                    <i class="ph-fill ph-sparkle"></i> Gemini AI 超リアル音声 (TTS)
+                                </div>
+                                <div class="text-xs text-slate-400 mt-0.5">Gemini 2.5 Flash TTSモデルで生成します（初回再生時に1〜2秒の通信が発生し、その後キャッシュされます）。</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Browser Voice Dropdown -->
+                <div id="browserVoiceSection" class="space-y-1.5">
+                    <label class="text-xs text-slate-400">英語ネイティブボイス選択</label>
+                    <select id="voiceSelect" onchange="selectBrowserVoice(this.value)" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-400">
+                        <option value="">自動選択（最高品質の英語ネイティブ音声）</option>
+                    </select>
+                </div>
+
+                <!-- Pause After Chunk for Shadowing -->
+                <div class="space-y-1.5 pt-2 border-t border-slate-800">
+                    <label class="text-xs text-slate-400">チャンク間のポーズ時間（リピート・音読練習用）</label>
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                        <button onclick="setPauseMode('short')" id="pauseShortBtn" class="py-2 px-3 rounded-lg border border-sky-500/40 bg-sky-500/20 text-sky-300 font-medium">テンポ重視 (0.4秒)</button>
+                        <button onclick="setPauseMode('medium')" id="pauseMedBtn" class="py-2 px-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-300">標準 (1.0秒)</button>
+                        <button onclick="setPauseMode('shadow')" id="pauseShadowBtn" class="py-2 px-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-300">音読リピート用 (自動)</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-slate-800 flex justify-end">
+                <button onclick="toggleVoiceModal()" class="px-5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm transition">
+                    完了
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // COMPLETE STORY DATA (Books 1 to 8 - Rewritten for Eiken Grade 4 & 5)
+        // Simple vocabulary, basic grammar (Present, Past, Future, can, must, to-V)
+        // =========================================================================
+        const STORY_BOOKS = [
+            {
+                bookId: "book1",
+                bookTitleEn: "Book 1: Tsunehito and the Time Adventure",
+                bookTitleJp: "第1巻：つねひとと、時をこえる不思議な冒険",
+                chapters: [
+                    {
+                        id: "b1c1",
+                        titleEn: "Chapter 1: A Boy Like an Adult",
+                        titleJp: "第1章　大人びた少年",
+                        paragraphs: [
+                            [
+                                { en: "Tsunehito was in the fifth grade,", jp: "つねひとは小学5年生でしたが、" },
+                                { en: "but he was very calm", jp: "とても落ち着いていました" },
+                                { en: "like an adult.", jp: "大人のように。" }
+                            ],
+                            [
+                                { en: "His classmates talked happily", jp: "クラスのみんなは楽しく話していました" },
+                                { en: "about games and YouTube.", jp: "ゲームやYouTubeについて。" },
+                                { en: "Tsunehito stood a little away", jp: "つねひとは少し離れて立っていました" },
+                                { en: "from them.", jp: "みんなから。" },
+                                { en: "He knew many things", jp: "彼はいろいろなことを知っていました" },
+                                { en: "about the world.", jp: "この世界について。" }
+                            ],
+                            [
+                                { en: "\"People only see", jp: "「人間は、見ているだけだよね" },
+                                { en: "a small part", jp: "ほんの一部を" },
+                                { en: "of the world,\"", jp: "世界の」" },
+                                { en: "he said suddenly", jp: "彼は突然言いました" },
+                                { en: "one day.", jp: "ある日。" },
+                                { en: "He was eating curry", jp: "彼はカレーを食べていました" },
+                                { en: "at lunch.", jp: "給食の時間に。" }
+                            ],
+                            [
+                                { en: "\"What?", jp: "「え？" },
+                                { en: "Are you talking", jp: "話しているの？" },
+                                { en: "about the curry?\"", jp: "カレーについて？」" },
+                                { en: "his friend asked.", jp: "友達が聞きました。" }
+                            ],
+                            [
+                                { en: "\"No.", jp: "「いや。" },
+                                { en: "Curry is just curry.\"", jp: "カレーはただのカレーだよ」" },
+                                { en: "Then Tsunehito drank his milk", jp: "そしてつねひとは牛乳を飲みました" },
+                                { en: "quietly.", jp: "静かに。" }
+                            ],
+                            [
+                                { en: "He liked to read hard books.", jp: "彼はむずかしい本を読むのが好きでした。" },
+                                { en: "They were about space,", jp: "それらは宇宙や、" },
+                                { en: "old countries,", jp: "昔の国や、" },
+                                { en: "and the secret of time.", jp: "時間のひみつについての本でした。" }
+                            ],
+                            [
+                                { en: "And Tsunehito had one secret.", jp: "そして、つねひとには一つだけ秘密がありました。" },
+                                { en: "He believed", jp: "彼は信じていました" },
+                                { en: "that there was a secret door", jp: "「秘密の入口」があると" },
+                                { en: "in this world.", jp: "この世界に。" },
+                                { en: "No one knew", jp: "誰も知りませんでした" },
+                                { en: "about it yet.", jp: "まだそのことを。" }
+                            ],
+                            [
+                                { en: "And on one rainy day,", jp: "そしてある雨の日に、" },
+                                { en: "he finally found the door.", jp: "彼はついにその入口を見つけました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b1c2",
+                        titleEn: "Chapter 2: Thirteen O'Clock",
+                        titleJp: "第2章　時計台の13時",
+                        paragraphs: [
+                            [
+                                { en: "After school,", jp: "放課後、" },
+                                { en: "Tsunehito was", jp: "つねひとはいました" },
+                                { en: "in an old library", jp: "古い図書館に" },
+                                { en: "near his house.", jp: "家の近くの。" }
+                            ],
+                            [
+                                { en: "It was raining hard", jp: "強い雨が降っていました" },
+                                { en: "outside.", jp: "外では。" },
+                                { en: "Tsunehito looked", jp: "つねひとは見ました" },
+                                { en: "at an old clock", jp: "古い時計を" },
+                                { en: "on the wall.", jp: "壁の。" }
+                            ],
+                            [
+                                { en: "It was 4:15 p.m.", jp: "午後4時15分でした。" },
+                                { en: "But the hands of the clock", jp: "でも、時計の針が" },
+                                { en: "were moving backward.", jp: "反対向きに動いていました。" }
+                            ],
+                            [
+                                { en: "\"I see.", jp: "「なるほど。" },
+                                { en: "Is it broken?\"", jp: "こわれているのかな？」" },
+                                { en: "When Tsunehito came close,", jp: "つねひとが近づいたとき、" },
+                                { en: "the clock began to shine", jp: "時計が光り始めました" },
+                                { en: "in blue.", jp: "青く。" }
+                            ],
+                            [
+                                { en: "Then the clock rang", jp: "そして時計が鳴りました" },
+                                { en: "thirteen times.", jp: "13回。" },
+                                { en: "Gong. Gong. Gong.", jp: "ゴーン。ゴーン。ゴーン。" },
+                                { en: "He heard the sound", jp: "彼はその音を聞きました" },
+                                { en: "inside his head.", jp: "頭の中で。" }
+                            ],
+                            [
+                                { en: "Then,", jp: "すると、" },
+                                { en: "the clock slowly opened.", jp: "時計がゆっくりと開きました。" },
+                                { en: "Inside,", jp: "中には、" },
+                                { en: "there was a small key.", jp: "小さな鍵がありました。" },
+                                { en: "There were words", jp: "文字がありました" },
+                                { en: "on the key.", jp: "その鍵には。" },
+                                { en: "Tsunehito could read them.", jp: "つねひとはそれを読むことができました。" }
+                            ],
+                            [
+                                { en: "\"Welcome", jp: "『ようこそ" },
+                                { en: "to the other side", jp: "裏側へ" },
+                                { en: "of the world.\"", jp: "世界の』" }
+                            ],
+                            [
+                                { en: "Tsunehito took the key.", jp: "つねひとは鍵を手に取りました。" },
+                                { en: "Then the bookshelves moved", jp: "すると本棚が動きました" },
+                                { en: "to the left and right.", jp: "左と右に。" },
+                                { en: "Behind them,", jp: "そのうしろに、" },
+                                { en: "long stairs appeared.", jp: "長い階段があらわれました。" }
+                            ],
+                            [
+                                { en: "\"My teacher", jp: "「僕の先生は" },
+                                { en: "at school", jp: "学校の" },
+                                { en: "will not believe this,\"", jp: "これを信じないだろうな」" },
+                                { en: "he said,", jp: "彼はそう言って、" },
+                                { en: "and he smiled a little.", jp: "少しだけ笑いました。" },
+                                { en: "Then he walked", jp: "そして彼は歩いていきました" },
+                                { en: "down the stairs.", jp: "階段の下へと。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b1c3",
+                        titleEn: "Chapter 3: The Sea in the Sky",
+                        titleJp: "第3章　空に浮かぶ海",
+                        paragraphs: [
+                            [
+                                { en: "At the bottom", jp: "一番下で" },
+                                { en: "of the stairs,", jp: "階段の、" },
+                                { en: "Tsunehito saw a wonderful place.", jp: "つねひとはすごい場所を見ました。" },
+                                { en: "A big sea", jp: "大きな海が" },
+                                { en: "was in the sky.", jp: "空にありました。" }
+                            ],
+                            [
+                                { en: "Fish were swimming", jp: "魚が泳いでいました" },
+                                { en: "in the clouds.", jp: "雲の中で。" },
+                                { en: "Blue grass grew", jp: "青い草が生えていました" },
+                                { en: "on the ground.", jp: "地面には。" },
+                                { en: "Far away,", jp: "遠くには、" },
+                                { en: "there was a big castle", jp: "大きなお城がありました" },
+                                { en: "upside down.", jp: "逆さまに。" }
+                            ],
+                            [
+                                { en: "\"Why is the sea", jp: "「どうして海があるんだろう" },
+                                { en: "in the sky?", jp: "空に？" },
+                                { en: "The rules of this world", jp: "この世界のルールは" },
+                                { en: "are different,\"", jp: "ちがうんだな」" },
+                                { en: "Tsunehito thought.", jp: "つねひとは考えました。" }
+                            ],
+                            [
+                                { en: "Just then,", jp: "ちょうどそのとき、" },
+                                { en: "he heard a voice", jp: "声が聞こえました" },
+                                { en: "near his feet.", jp: "足元の近くから。" },
+                                { en: "\"Hey, human!\"", jp: "「おい、人間！」" }
+                            ],
+                            [
+                                { en: "He looked down.", jp: "彼は下を見ました。" },
+                                { en: "A black cat was standing", jp: "黒猫が立っていました" },
+                                { en: "on two legs.", jp: "二本足で。" },
+                                { en: "It had yellow eyes", jp: "その猫は金色の目をしていて、" },
+                                { en: "and had a small watch", jp: "小さな時計を持っていました" },
+                                { en: "in its hand.", jp: "片手に。" }
+                            ],
+                            [
+                                { en: "\"You can talk?\"", jp: "「君、しゃべれるのか？」" },
+                                { en: "Tsunehito asked.", jp: "つねひとは聞きました。" },
+                                { en: "\"I am Chrono,\"", jp: "「私はクロノだ」" },
+                                { en: "the cat said.", jp: "黒猫は言いました。" },
+                                { en: "\"I keep the time", jp: "「私は時間を守っている" },
+                                { en: "in this world.", jp: "この世界の。" },
+                                { en: "Why did you come here?\"", jp: "お前、どうしてここに来た？」" }
+                            ],
+                            [
+                                { en: "Tsunehito thought", jp: "つねひとは考えて" },
+                                { en: "for a moment", jp: "少しの間、" },
+                                { en: "and answered,", jp: "そして答えました。" },
+                                { en: "\"It looked interesting,", jp: "「面白そうだったから、" },
+                                { en: "so I came.\"", jp: "だから来ただけだよ」" }
+                            ],
+                            [
+                                { en: "Chrono was surprised.", jp: "クロノはおどろきました。" },
+                                { en: "\". . . Aren't you afraid?\"", jp: "「……お前、こわくないのか？」" },
+                                { en: "\"I don't know much", jp: "「僕はまだよく知らないからね" },
+                                { en: "about this place yet,", jp: "この場所のことを、" },
+                                { en: "so I am not afraid.\"", jp: "だからこわくないよ」" },
+                                { en: "Chrono said quietly,", jp: "クロノは小さな声で言いました。" },
+                                { en: "\"He is a strange boy . . .\"", jp: "「変わった人間が来てしまったな……」" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b1c4",
+                        titleEn: "Chapter 4: The World in Danger",
+                        titleJp: "第4章　消え始めた世界",
+                        paragraphs: [
+                            [
+                                { en: "Chrono talked", jp: "クロノは話しました" },
+                                { en: "about this world.", jp: "この世界について。" },
+                                { en: "There was a big crystal", jp: "大きなクリスタル（結晶）があり、" },
+                                { en: "called the \"Heart of Time.\"", jp: "『時の心臓』と呼ばれていました。" },
+                                { en: "It kept the world safe.", jp: "それが世界を安全に支えていました。" }
+                            ],
+                            [
+                                { en: "But three days ago,", jp: "しかし3日前、" },
+                                { en: "the crystal began to break.", jp: "その結晶がこわれ始めました。" },
+                                { en: "Time was breaking", jp: "時間がこわれ始めていました" },
+                                { en: "all over the world.", jp: "世界のあちこちで。" }
+                            ],
+                            [
+                                { en: "Water in the river", jp: "川の水が" },
+                                { en: "went up", jp: "上っていきました" },
+                                { en: "into the sky.", jp: "空へと。" },
+                                { en: "And after twenty-four hours,", jp: "そしてあと24時間で、" },
+                                { en: "this world will go away.", jp: "この世界は消えてしまいます。" }
+                            ],
+                            [
+                                { en: "\"So why am I here?\"", jp: "「それで、どうして僕がここに呼ばれたの？」" },
+                                { en: "Tsunehito asked.", jp: "つねひとは聞きました。" },
+                                { en: "Chrono looked", jp: "クロノは見ました" },
+                                { en: "at the key", jp: "その鍵を" },
+                                { en: "in Tsunehito's hand.", jp: "つねひとの手にある。" }
+                            ],
+                            [
+                                { en: "\"Only that key", jp: "「その鍵だけが" },
+                                { en: "can help the Heart of Time.", jp: "時の心臓を直すことができる。" },
+                                { en: "You want to know the future,", jp: "お前は未来を知りたいと思っているが、" },
+                                { en: "and you choose your future", jp: "自分の未来を選ぼうとしている" },
+                                { en: "by yourself.\"", jp: "自分自身で」" }
+                            ],
+                            [
+                                { en: "Tsunehito thought", jp: "つねひとは考えました" },
+                                { en: "for a while.", jp: "しばらくの間。" },
+                                { en: "\"I see.", jp: "「なるほど。" },
+                                { en: "Knowing the future", jp: "未来を知ることと" },
+                                { en: "and choosing the future", jp: "未来を選ぶことは" },
+                                { en: "are different.\"", jp: "別のことなんだね」" }
+                            ],
+                            [
+                                { en: "Chrono looked surprised.", jp: "クロノはおどろいた顔をしました。" },
+                                { en: "\". . . Are you really in the fifth grade?\"", jp: "「……お前、本当に小学5年生か？」" },
+                                { en: "\"Yes, I am.\"", jp: "「そうだよ」" },
+                                { en: "And so,", jp: "こうして、" },
+                                { en: "Tsunehito's adventure began.", jp: "つねひとの冒険が始まりました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b1c5",
+                        titleEn: "Chapter 5: The Future Shop",
+                        titleJp: "第5章　未来を売る店",
+                        paragraphs: [
+                            [
+                                { en: "On the way", jp: "向かう途中で" },
+                                { en: "to the castle,", jp: "お城へと、" },
+                                { en: "they found a strange shop.", jp: "二人はふしぎなお店を見つけました。" },
+                                { en: "The sign said:", jp: "看板にはこう書いてありました。" },
+                                { en: "\"We Buy Your Future.\"", jp: "『あなたの未来、買います』" }
+                            ],
+                            [
+                                { en: "Inside the shop,", jp: "お店の中には、" },
+                                { en: "there were many glass bottles.", jp: "たくさんのガラスの瓶（びん）がありました。" },
+                                { en: "In each bottle,", jp: "それぞれの瓶の中では、" },
+                                { en: "people's futures were moving", jp: "人々の未来が動いていました" },
+                                { en: "like movies.", jp: "映画のように。" }
+                            ],
+                            [
+                                { en: "An old man", jp: "一人のおじいさんが" },
+                                { en: "in the shop", jp: "お店の" },
+                                { en: "came close", jp: "近づいてきました" },
+                                { en: "to Tsunehito.", jp: "つねひとに。" },
+                                { en: "\"Boy,", jp: "「坊や、" },
+                                { en: "your future is very special.", jp: "君の未来はとても特別だ。" },
+                                { en: "If you sell it to me,", jp: "もしそれを私に売ってくれたら、" },
+                                { en: "I will give you anything.", jp: "何でも一つかなえてあげよう。" },
+                                { en: "You can become rich,", jp: "お金持ちにもなれるし、" },
+                                { en: "or you can become a king.\"", jp: "王様にだってなれるぞ」" }
+                            ],
+                            [
+                                { en: "Tsunehito looked", jp: "つねひとは見ました" },
+                                { en: "at a big bottle", jp: "大きな瓶を" },
+                                { en: "in the shop.", jp: "お店の中の。" },
+                                { en: "In the bottle,", jp: "その瓶の中に、" },
+                                { en: "he saw his future.", jp: "彼は自分の未来を見ました。" },
+                                { en: "Many people liked him", jp: "たくさんの人が彼を尊敬し、" },
+                                { en: "and listened to him.", jp: "彼の話を聞いていました。" }
+                            ],
+                            [
+                                { en: "It was a good future.", jp: "いい未来でした。" },
+                                { en: "But Tsunehito shook his head.", jp: "でも、つねひとは首を横に振りました。" },
+                                { en: "\"I won't sell it.\"", jp: "「売らないよ」" },
+                                { en: "\"Why?\"", jp: "「なぜだい？」" },
+                                { en: "the old man asked.", jp: "おじいさんは聞きました。" }
+                            ],
+                            [
+                                { en: "\"The future is not here yet,\"", jp: "「未来はまだ来ていないんだ」" },
+                                { en: "Tsunehito said quietly.", jp: "つねひとは静かに言いました。" },
+                                { en: "\"I want to choose my future", jp: "「僕は自分の未来を選びたいんだ" },
+                                { en: "by myself", jp: "自分自身で" },
+                                { en: "from now on.\"", jp: "これから先に」" }
+                            ],
+                            [
+                                { en: "Then,", jp: "すると、" },
+                                { en: "the old man turned", jp: "おじいさんの姿が変わりました" },
+                                { en: "into black smoke.", jp: "黒い煙（けむり）に。" },
+                                { en: "\"You are breaking the time!\"", jp: "「お前が時間をこわしているのか！」" },
+                                { en: "Chrono shouted.", jp: "クロノが叫びました。" },
+                                { en: "The black smoke laughed,", jp: "黒い煙は笑い、" },
+                                { en: "and the sky broke", jp: "そして空が割れました" },
+                                { en: "into two.", jp: "二つに。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b1c6",
+                        titleEn: "Chapter 6: The Last Choice",
+                        titleJp: "第6章　最後の選択",
+                        paragraphs: [
+                            [
+                                { en: "Long ago,", jp: "むかし、" },
+                                { en: "the black smoke kept the time", jp: "その黒い煙は時間を守っていました" },
+                                { en: "in this world.", jp: "この世界の。" },
+                                { en: "\"I will decide everything", jp: "「私がすべてを決めてやる" },
+                                { en: "about the future!\"", jp: "未来のことを！」" },
+                                { en: "the black shadow shouted.", jp: "黒い影が叫びました。" },
+                                { en: "\"I will make a world", jp: "「私は世界を作るのだ" },
+                                { en: "with no mistakes", jp: "失敗（まちがい）もなく、" },
+                                { en: "and no sad things!\"", jp: "悲しいこともない世界を！」" }
+                            ],
+                            [
+                                { en: "Tsunehito held the key.", jp: "つねひとは鍵をにぎりました。" },
+                                { en: "\"That is not good,\"", jp: "「それはよくないよ」" },
+                                { en: "he said.", jp: "彼は言いました。" },
+                                { en: "\"If we don't make mistakes,", jp: "「もし失敗がなかったら、" },
+                                { en: "we will not try new things.", jp: "僕たちは新しいことに挑戦しなくなる。" },
+                                { en: "Choosing our own future", jp: "自分の未来を自分で選ぶことの方が" },
+                                { en: "is more important.\"", jp: "もっと大切なんだ」" }
+                            ],
+                            [
+                                { en: "\"You are just a child!\"", jp: "「子どものくせに！」" },
+                                { en: "the shadow shouted.", jp: "影は叫びました。" },
+                                { en: "\"Because I am a child,", jp: "「子どもだからこそ、" },
+                                { en: "I have many futures", jp: "僕にはたくさんの未来があるんだよ" },
+                                { en: "to choose!\"", jp: "これから選べる未来がね！」" }
+                            ],
+                            [
+                                { en: "Then,", jp: "そのとき、" },
+                                { en: "the key shone brightly.", jp: "鍵が明るく光りました。" },
+                                { en: "A road of light", jp: "光の道が" },
+                                { en: "went up", jp: "のびていきました" },
+                                { en: "to the top of the castle.", jp: "お城の一番上まで。" },
+                                { en: "Tsunehito ran up the stairs", jp: "つねひとは階段を走って上り、" },
+                                { en: "and opened the last door.", jp: "最後の扉を開けました。" }
+                            ],
+                            [
+                                { en: "There,", jp: "そこには、" },
+                                { en: "he saw the big blue crystal.", jp: "大きな青い結晶がありました。" },
+                                { en: "Tsunehito put the key", jp: "つねひとは鍵を入れました" },
+                                { en: "into the crystal.", jp: "結晶の中に。" },
+                                { en: "Click.", jp: "カチリ。" },
+                                { en: "Everything in the world", jp: "世界中のすべてのものが" },
+                                { en: "stopped moving.", jp: "動きを止めました。" }
+                            ],
+                            [
+                                { en: "Then Tsunehito heard a voice", jp: "そしてつねひとは声を聞きました" },
+                                { en: "in his head.", jp: "頭の中で。" },
+                                { en: "\"Choose only one.\"", jp: "『一つだけ選びなさい』" },
+                                { en: "\"If you save this world,", jp: "『もしこの世界を救ったら、" },
+                                { en: "you will forget everything", jp: "お前はすべて忘れてしまう" },
+                                { en: "about this adventure.\"", jp: "この冒険のことを』" },
+                                { en: "\"Or if you stay here,", jp: "『それとも、もしここに残るなら、" },
+                                { en: "you can never go home.\"", jp: "二度と元の世界へは帰れない』" }
+                            ],
+                            [
+                                { en: "Tsunehito closed his eyes.", jp: "つねひとは目を閉じました。" },
+                                { en: "This world was very beautiful.", jp: "この世界はとても美しい場所でした。" },
+                                { en: "But in his old world,", jp: "でも、元の世界には、" },
+                                { en: "he had his family and friends.", jp: "家族や友達がいます。" },
+                                { en: "Slowly,", jp: "ゆっくりと、" },
+                                { en: "Tsunehito opened his eyes.", jp: "つねひとは目を開けました。" },
+                                { en: "\"I will go home.\"", jp: "「僕は、家に帰るよ」" }
+                            ],
+                            [
+                                { en: "He turned the key.", jp: "彼は鍵を回しました。" },
+                                { en: "Blue light went", jp: "青い光が広がりました" },
+                                { en: "all over the world.", jp: "世界中に。" },
+                                { en: "The crystal was clean again,", jp: "結晶のひびがきれいに消えて、" },
+                                { en: "and time began to move.", jp: "時間がふたたび動き始めました。" },
+                                { en: "\"Tsunehito!", jp: "「つねひと！" },
+                                { en: "Let's meet again", jp: "また会おう" },
+                                { en: "someday!\"", jp: "いつか！」" },
+                                { en: "Chrono called.", jp: "クロノが呼びかけました。" },
+                                { en: "Tsunehito smiled,", jp: "つねひとは笑い、" },
+                                { en: "and white light covered the world.", jp: "白い光が世界を包みました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b1c7",
+                        titleEn: "Last Chapter: Monday Morning",
+                        titleJp: "最終章　月曜日の朝",
+                        paragraphs: [
+                            [
+                                { en: "\". . . Hm?\"", jp: "「……ん？」" },
+                                { en: "Tsunehito woke up", jp: "つねひとは目を覚ましました" },
+                                { en: "at a desk", jp: "机の上で" },
+                                { en: "in the library.", jp: "図書館の。" }
+                            ],
+                            [
+                                { en: "Outside the window,", jp: "窓の外は、" },
+                                { en: "the sky was blue and clear.", jp: "空が青く晴れていました。" },
+                                { en: "The clock", jp: "時計は" },
+                                { en: "on the wall", jp: "壁の" },
+                                { en: "showed 4:15 p.m.", jp: "午後4時15分を指していました。" }
+                            ],
+                            [
+                                { en: "Was it a dream?", jp: "すべて夢だったのでしょうか？" },
+                                { en: "When he stood up,", jp: "彼が立ち上がったとき、" },
+                                { en: "something shone", jp: "何かが光りました" },
+                                { en: "in his pocket.", jp: "ポケットの中で。" },
+                                { en: "It was the small key.", jp: "それはあの小さな鍵でした。" }
+                            ],
+                            [
+                                { en: "There were words", jp: "文字が刻まれていました" },
+                                { en: "on the key:", jp: "その鍵には。" },
+                                { en: "\"See you again", jp: "『また会おう" },
+                                { en: "at thirteen o'clock.\"", jp: "13時に』" },
+                                { en: "Tsunehito looked", jp: "つねひとは見つめました" },
+                                { en: "at the key", jp: "その鍵を" },
+                                { en: "and said quietly,", jp: "そして静かに言いました。" },
+                                { en: "\". . . I see.", jp: "「……なるほど。" },
+                                { en: "It is not over yet.\"", jp: "まだ終わっていないんだね」" }
+                            ],
+                            [
+                                { en: "That night,", jp: "その夜、" },
+                                { en: "Tsunehito had a dream.", jp: "つねひとは夢を見ました。" },
+                                { en: "Near the sea", jp: "海の近くで" },
+                                { en: "in the sky,", jp: "空に浮かぶ、" },
+                                { en: "the black cat Chrono", jp: "黒猫のクロノが" },
+                                { en: "was looking", jp: "見ていました" },
+                                { en: "at his watch.", jp: "懐中時計を。" }
+                            ],
+                            [
+                                { en: "A girl was standing", jp: "一人の女の子が立っていました" },
+                                { en: "next to Chrono.", jp: "クロノの隣に。" },
+                                { en: "She had the same key", jp: "彼女は同じような鍵を持っていました" },
+                                { en: "in her hand.", jp: "その手に。" },
+                                { en: "\"Next,", jp: "「次は、" },
+                                { en: "it is my turn", jp: "私の番よ" },
+                                { en: "to find the secret", jp: "秘密を見つける" },
+                                { en: "of the world,\"", jp: "世界のね」" },
+                                { en: "the girl said.", jp: "女の子は言いました。" },
+                                { en: "Then the clock rang", jp: "その瞬間、時計が鳴りました" },
+                                { en: "thirteen times.", jp: "13回。" }
+                            ]
+                        ]
+                    }
+                ]
+            },
+            {
+                bookId: "book2",
+                bookTitleEn: "Book 2: The Thirteenth World and the New Girl",
+                bookTitleJp: "第2巻：十三番目の世界と、存在しない少女",
+                chapters: [
+                    {
+                        id: "b2c1",
+                        titleEn: "Chapter 1: The New Student on Monday",
+                        titleJp: "第1章　月曜日の転校生",
+                        paragraphs: [
+                            [
+                                { en: "On Monday morning,", jp: "月曜日の朝、" },
+                                { en: "Tsunehito walked", jp: "つねひとは歩いていきました" },
+                                { en: "to school.", jp: "学校へ。" },
+                                { en: "He remembered his dream", jp: "彼は夢を覚えていました" },
+                                { en: "from last night:", jp: "昨夜の。" },
+                                { en: "the sea in the sky,", jp: "空に浮かぶ海、" },
+                                { en: "the black cat Chrono,", jp: "黒猫のクロノ、" },
+                                { en: "and a girl.", jp: "そして見知らぬ女の子。" }
+                            ],
+                            [
+                                { en: "When he entered the classroom,", jp: "教室に入ると、" },
+                                { en: "everyone was talking happily.", jp: "みんなが楽しそうに話していました。" },
+                                { en: "\"A new student is coming", jp: "「新しい転校生が来るんだって" },
+                                { en: "today!\"", jp: "今日！」" },
+                                { en: "\"She is a very smart girl!\"", jp: "「すごく頭のいい女の子らしいよ！」" }
+                            ],
+                            [
+                                { en: "Just then,", jp: "そのとき、" },
+                                { en: "the teacher came", jp: "先生が入ってきました" },
+                                { en: "into the classroom", jp: "教室に" },
+                                { en: "with a girl.", jp: "一人の女の子と一緒に。" },
+                                { en: "She had long black hair", jp: "彼女は長い黒髪で、" },
+                                { en: "and calm eyes.", jp: "落ち着いた目をしていました。" }
+                            ],
+                            [
+                                { en: "\"Nice to meet you.", jp: "「初めまして。" },
+                                { en: "I am Luna Minazuki,\"", jp: "水無月ルナです」" },
+                                { en: "she said.", jp: "彼女は言いました。" },
+                                { en: "Then she sat", jp: "そして彼女は座りました" },
+                                { en: "next to Tsunehito.", jp: "つねひとの隣の席に。" }
+                            ],
+                            [
+                                { en: "She spoke", jp: "彼女は話しかけました" },
+                                { en: "to Tsunehito", jp: "つねひとに" },
+                                { en: "in a small voice,", jp: "小さな声で。" },
+                                { en: "\"I finally found you.", jp: "「やっと見つけた。" },
+                                { en: "You saved the world", jp: "あなたは世界を救った人ね" },
+                                { en: "once.\"", jp: "一度」" }
+                            ],
+                            [
+                                { en: "Tsunehito looked", jp: "つねひとは見ました" },
+                                { en: "at the girl.", jp: "その女の子を。" },
+                                { en: "\"Who are you?\"", jp: "「君はだれ？」" },
+                                { en: "Luna smiled.", jp: "ルナは笑いました。" },
+                                { en: "\"I am like you.", jp: "「あなたと同じよ。" },
+                                { en: "I know the secret", jp: "私は秘密を知っているの" },
+                                { en: "of the world.\"", jp: "世界の」" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b2c2",
+                        titleEn: "Chapter 2: Student Number 31",
+                        titleJp: "第2章　存在しない出席番号",
+                        paragraphs: [
+                            [
+                                { en: "In math class,", jp: "算数の授業中、" },
+                                { en: "the teacher looked", jp: "先生は見ました" },
+                                { en: "at the class list.", jp: "出席簿（クラスの名簿）を。" },
+                                { en: "\"That's strange,\"", jp: "「あれ？　おかしいな」" },
+                                { en: "the teacher said.", jp: "先生は言いました。" },
+                                { en: "\"Our class has thirty students,", jp: "「うちのクラスは30人なのに、" },
+                                { en: "but there is number thirty-one:", jp: "31番の名前があるぞ。" },
+                                { en: "Luna Minazuki.\"", jp: "水無月ルナだ」" }
+                            ],
+                            [
+                                { en: "\"Teacher, that is me,\"", jp: "「先生、それ私です」" },
+                                { en: "Luna said.", jp: "ルナは言いました。" },
+                                { en: "\"There were thirty-one students", jp: "「31人いたんですよ" },
+                                { en: "from the start.\"", jp: "最初から」" },
+                                { en: "\"Oh . . . maybe you are right,\"", jp: "「うーん……そう言われると、そうかな」" },
+                                { en: "the teacher said.", jp: "先生は言いました。" }
+                            ],
+                            [
+                                { en: "At break time,", jp: "休み時間に、" },
+                                { en: "Tsunehito talked", jp: "つねひとは話しました" },
+                                { en: "with Luna", jp: "ルナと" },
+                                { en: "in the science room.", jp: "理科室で。" },
+                                { en: "\"You changed the teacher's memory,", jp: "「先生の記憶（きおく）を変えたんだね、" },
+                                { en: "right?\"", jp: "そうだろ？」" },
+                                { en: "\"Yes,\"", jp: "「ええ」" },
+                                { en: "Luna said.", jp: "ルナは言いました。" },
+                                { en: "\"Since this morning,", jp: "「今朝から、" },
+                                { en: "memories and photos", jp: "記憶や写真が" },
+                                { en: "in this world", jp: "この世界の" },
+                                { en: "are changing.\"", jp: "少しずつ変わり始めているの」" }
+                            ],
+                            [
+                                { en: "Luna took out a class photo", jp: "ルナはクラスの写真を一枚取り出しました" },
+                                { en: "from her pocket.", jp: "ポケットから。" },
+                                { en: "At the back", jp: "一番うしろに" },
+                                { en: "of the photo,", jp: "写真の、" },
+                                { en: "there was a boy", jp: "一人の男の子が立っていました" },
+                                { en: "with a black face.", jp: "顔が黒くぬりつぶされた。" },
+                                { en: "\"This boy was in this world before,", jp: "「この子は前にこの世界にいたけれど、" },
+                                { en: "but now no one remembers him,\"", jp: "今は誰も彼のことを覚えていないのよ」" },
+                                { en: "Luna said.", jp: "ルナは言いました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b2c3",
+                        titleEn: "Chapter 3: The Black Notebook",
+                        titleJp: "第3章　黒いノート",
+                        paragraphs: [
+                            [
+                                { en: "After school,", jp: "放課後、" },
+                                { en: "Tsunehito and Luna went", jp: "つねひととルナは行きました" },
+                                { en: "to a room", jp: "古い部屋へ" },
+                                { en: "under the old school building.", jp: "旧校舎の地下にある。" },
+                                { en: "When Luna touched the door,", jp: "ルナが扉にさわると、" },
+                                { en: "it shone blue", jp: "青く光って" },
+                                { en: "and opened.", jp: "扉が開きました。" }
+                            ],
+                            [
+                                { en: "In the center", jp: "真ん中に" },
+                                { en: "of the room,", jp: "部屋の、" },
+                                { en: "there was a black notebook.", jp: "一冊の黒いノートがありました。" },
+                                { en: "On the cover,", jp: "表紙には、" },
+                                { en: "it said:", jp: "こう書いてありました。" },
+                                { en: "\"Book 13.\"", jp: "『存在記録　第13巻』" }
+                            ],
+                            [
+                                { en: "Tsunehito opened the notebook", jp: "つねひとはノートを開いて" },
+                                { en: "and read the first page:", jp: "最初のページを読みました。" },
+                                { en: "\"There are twelve worlds.", jp: "『この世界には、12の世界がある。" },
+                                { en: "Each world has its own time.", jp: "それぞれの世界に、ちがう時間がある。" },
+                                { en: "In the thirteenth world,", jp: "そして13番目の世界には、" },
+                                { en: "the ends of all worlds", jp: "すべての世界の終わりが" },
+                                { en: "are written.\"", jp: "書かれている』" }
+                            ],
+                            [
+                                { en: "Tsunehito looked", jp: "つねひとは見ました" },
+                                { en: "at the last page.", jp: "最後のページを。" },
+                                { en: "There was only one line:", jp: "そこには一行だけ書いてありました。" },
+                                { en: "\"Keeper of the Thirteenth World — Tsunehito\"", jp: "『第十三世界の管理者――つねひと』" },
+                                { en: "\"What? I am just a fifth grader!\"", jp: "「え？　僕はただの小学5年生だぞ！」" },
+                                { en: "Tsunehito said.", jp: "つねひとは言いました。" }
+                            ],
+                            [
+                                { en: "Suddenly,", jp: "突然、" },
+                                { en: "the room became dark.", jp: "部屋が暗くなりました。" },
+                                { en: "Step. Step. Step.", jp: "コツ。コツ。コツ。" },
+                                { en: "A man in a white mask", jp: "白い仮面（マスク）をつけた男が" },
+                                { en: "walked out", jp: "歩いてきました" },
+                                { en: "from the dark.", jp: "暗闇の中から。" },
+                                { en: "In his hand,", jp: "男の手には、" },
+                                { en: "he had the same key", jp: "同じ鍵がありました" },
+                                { en: "as Tsunehito.", jp: "つねひとの鍵と。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b2c4",
+                        titleEn: "Chapter 4: The Man from the Future",
+                        titleJp: "第4章　未来から来た敵",
+                        paragraphs: [
+                            [
+                                { en: "The man took off his white mask.", jp: "男は白い仮面を外しました。" },
+                                { en: "Tsunehito was very surprised.", jp: "つねひとはとてもおどろきました。" },
+                                { en: "The man had the same face", jp: "その男は同じ顔をしていました" },
+                                { en: "as Tsunehito.", jp: "つねひとと。" },
+                                { en: "\"I am you", jp: "「私は君だ" },
+                                { en: "from the future,\"", jp: "未来から来た」" },
+                                { en: "the man said.", jp: "大人のつねひとは言いました。" }
+                            ],
+                            [
+                                { en: "\"I visited many worlds,\"", jp: "「私はたくさんの世界を旅した」" },
+                                { en: "the man said.", jp: "男は言いました。" },
+                                { en: "\"And in the end,", jp: "「そして最後には、" },
+                                { en: "all the worlds go away.", jp: "すべての世界が消えてしまう。" },
+                                { en: "To save the world,", jp: "世界を救うためには、" },
+                                { en: "we must make the twelve worlds", jp: "12の世界をしなければならない" },
+                                { en: "into one.", jp: "たった一つに。" },
+                                { en: "Then no one will make mistakes,", jp: "そうすれば誰も失敗しないし、" },
+                                { en: "and no one will be sad.\"", jp: "誰も悲しまない世界を作れる」" }
+                            ],
+                            [
+                                { en: "Tsunehito shook his head.", jp: "つねひとは首を横に振りました。" },
+                                { en: "\"That is not saving the world.", jp: "「それは、世界を救うことじゃないよ。" },
+                                { en: "If you do that,", jp: "もしそんなことをしたら、" },
+                                { en: "people living now", jp: "今生きている人たちが" },
+                                { en: "cannot choose their own future.\"", jp: "自分の未来を選べなくなってしまう」" }
+                            ],
+                            [
+                                { en: "The man held his key.", jp: "男は鍵をにぎりました。" },
+                                { en: "\"Then I must stop you", jp: "「ならば、君を止めなければならない" },
+                                { en: "here.\"", jp: "ここで」" },
+                                { en: "White light covered Tsunehito and Luna,", jp: "白い光がつねひととルナを包み、" },
+                                { en: "and they went", jp: "二人は飛ばされました" },
+                                { en: "to another place.", jp: "別の場所へと。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b2c5",
+                        titleEn: "Chapter 5: The Town Without Time",
+                        titleJp: "第5章　時間の止まった町",
+                        paragraphs: [
+                            [
+                                { en: "When Tsunehito woke up,", jp: "つねひとが目を覚ますと、" },
+                                { en: "he was in an old town", jp: "彼は古い町にいました" },
+                                { en: "under a purple sky.", jp: "紫色の空の下の。" },
+                                { en: "There were many people", jp: "たくさんの人がいましたが" },
+                                { en: "on the street,", jp: "道には、" },
+                                { en: "but no one was moving.", jp: "誰も動いていませんでした。" },
+                                { en: "All the clocks were stopped.", jp: "すべての時計も止まっていました。" }
+                            ],
+                            [
+                                { en: "Among the people,", jp: "人々の中に、" },
+                                { en: "only one girl", jp: "女の子が一人だけ" },
+                                { en: "with a red scarf", jp: "赤いマフラーをした" },
+                                { en: "was moving.", jp: "動いていました。" },
+                                { en: "She looked at Tsunehito", jp: "彼女はつねひとを見て" },
+                                { en: "and said", jp: "言いました" },
+                                { en: "in a small voice,", jp: "小さな声で。" },
+                                { en: "\"I am the first person", jp: "「私は最初の人よ" },
+                                { en: "you could not save.\"", jp: "あなたが救えなかった」" }
+                            ],
+                            [
+                                { en: "The girl showed him", jp: "少女は彼に見せました" },
+                                { en: "a piece of paper.", jp: "一枚の紙を。" },
+                                { en: "It said", jp: "そこには書いてありました" },
+                                { en: "in red words:", jp: "赤い文字で。" },
+                                { en: "\"Tsunehito will break the thirteenth world.\"", jp: "『つねひとは、13番目の世界をこわす』" },
+                                { en: "\"Not the future you,", jp: "「未来のあなたではなくて、" },
+                                { en: "but the you of now,\"", jp: "今のあなたが世界をこわすのよ」" },
+                                { en: "the girl said.", jp: "少女は言いました。" }
+                            ],
+                            [
+                                { en: "At that moment,", jp: "その瞬間、" },
+                                { en: "all the clocks", jp: "すべての時計が" },
+                                { en: "in the town", jp: "町の" },
+                                { en: "started to move backward.", jp: "逆向きに動き始めました。" },
+                                { en: "The sky opened,", jp: "空が割れて、" },
+                                { en: "and many Tsunehitos", jp: "たくさんのつねひとが" },
+                                { en: "appeared in the sky.", jp: "空にあらわれました。" },
+                                { en: "All of them said:", jp: "その全員が同じことを言いました。" },
+                                { en: "\"You are the start", jp: "「お前が始まりだ" },
+                                { en: "of everything.\"", jp: "すべての」" }
+                            ],
+                            [
+                                { en: "The key in Tsunehito's hand", jp: "つねひとの手の中の鍵が" },
+                                { en: "began to shine.", jp: "光り始めました。" },
+                                { en: "\"I see,\"", jp: "「そうか」" },
+                                { en: "Tsunehito said.", jp: "つねひとは言いました。" },
+                                { en: "\"The world is testing me.\"", jp: "「世界が、僕をテストしているんだ」" },
+                                { en: "Then all the clocks rang", jp: "そのとき、すべての時計が鳴りました" },
+                                { en: "thirteen times,", jp: "13回、" },
+                                { en: "and the world turned upside down.", jp: "そして世界がひっくり返りました。" }
+                            ]
+                        ]
+                    }
+                ]
+            },
+            {
+                bookId: "book3",
+                bookTitleEn: "Book 3: The Other Tsunehito and the First Memory",
+                bookTitleJp: "第3巻：もう一人のつねひとと、消えた最初の記憶",
+                chapters: [
+                    {
+                        id: "b3c1",
+                        titleEn: "Chapter 1: The Upside-Down World",
+                        titleJp: "第1章　世界が裏返った日",
+                        paragraphs: [
+                            [
+                                { en: "The world turned upside down.", jp: "世界が上下逆さまにひっくり返りました。" },
+                                { en: "The sky became the ground,", jp: "空が地面になり、" },
+                                { en: "and the ground became the sky.", jp: "地面が空になりました。" }
+                            ],
+                            [
+                                { en: "Tsunehito was", jp: "つねひとは浮かんでいました" },
+                                { en: "in the air,", jp: "空中に、" },
+                                { en: "and he thought calmly.", jp: "そして冷静に考えました。" },
+                                { en: "\"I see.", jp: "「なるほど。" },
+                                { en: "'Up' and 'down'", jp: "『上』と『下』が" },
+                                { en: "changed places.\"", jp: "入れ替わったんだな」" }
+                            ],
+                            [
+                                { en: "\"Tsunehito!\"", jp: "「つねひと！」" },
+                                { en: "Luna called", jp: "ルナが呼びました" },
+                                { en: "near him.", jp: "彼の近くで。" },
+                                { en: "\"Don't just think!", jp: "「考えている場合じゃないでしょ！" },
+                                { en: "Do something!\"", jp: "何とかしてよ！」" }
+                            ],
+                            [
+                                { en: "Just then,", jp: "ちょうどそのとき、" },
+                                { en: "the key jumped out", jp: "鍵が飛び出しました" },
+                                { en: "of Tsunehito's pocket", jp: "つねひとのポケットから、" },
+                                { en: "and shone blue.", jp: "そして青く光りました。" },
+                                { en: "Clear stairs appeared", jp: "透明な階段があらわれました" },
+                                { en: "in front of them.", jp: "二人の目の前に。" }
+                            ],
+                            [
+                                { en: "\"Luna, let's go", jp: "「ルナ、行こう" },
+                                { en: "to those stairs,\"", jp: "あの階段へ」" },
+                                { en: "Tsunehito said.", jp: "つねひとは言いました。" },
+                                { en: "\"Is it safe?\"", jp: "「安全なの？」" },
+                                { en: "\"I don't know,", jp: "「分からない。" },
+                                { en: "but we have no other way.\"", jp: "でも、ほかに道がないからね」" }
+                            ],
+                            [
+                                { en: "They ran up the stairs.", jp: "二人は階段を走って上りました。" },
+                                { en: "At the top", jp: "一番上に着くと" },
+                                { en: "of the stairs,", jp: "階段の、" },
+                                { en: "the world became normal again.", jp: "世界は元の姿に戻りました。" },
+                                { en: "In front of them,", jp: "目の前には、" },
+                                { en: "there was a door.", jp: "一つの扉がありました。" },
+                                { en: "On the door,", jp: "扉には、" },
+                                { en: "it said:", jp: "こう書いてありました。" },
+                                { en: "\"Room of the First Memory.\"", jp: "『第一記憶保管庫（最初の記憶の部屋）』" }
+                            ],
+                            [
+                                { en: "When Tsunehito saw those words,", jp: "つねひとがその文字を見たとき、" },
+                                { en: "he heard a voice", jp: "声が聞こえました" },
+                                { en: "in his head:", jp: "頭の中で。" },
+                                { en: "\"Tsunehito,", jp: "『つねひと。" },
+                                { en: "you must never open this door.\"", jp: "絶対にこの扉を開けてはいけない』" },
+                                { en: "But Tsunehito knew", jp: "しかし、つねひとには分かっていました、" },
+                                { en: "that his lost memory", jp: "自分が忘れてしまった大切な記憶が" },
+                                { en: "was behind this door.", jp: "この扉の向こうにあることが。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b3c2",
+                        titleEn: "Chapter 2: Five-Year-Old Tsunehito",
+                        titleJp: "第2章　五歳のつねひと",
+                        paragraphs: [
+                            [
+                                { en: "The door opened.", jp: "扉が開きました。" },
+                                { en: "Inside the dark room,", jp: "暗い部屋の中には、" },
+                                { en: "there were many clear balls.", jp: "たくさんの透明なボールが浮かんでいました。" },
+                                { en: "In each ball,", jp: "それぞれのボールの中で、" },
+                                { en: "a movie of someone's memory", jp: "誰かの思い出の映像が" },
+                                { en: "was playing.", jp: "流れていました。" }
+                            ],
+                            [
+                                { en: "Tsunehito looked", jp: "つねひとは見ました" },
+                                { en: "at one ball", jp: "一つのボールを" },
+                                { en: "near him.", jp: "近くの。" },
+                                { en: "In it,", jp: "その中には、" },
+                                { en: "five-year-old Tsunehito", jp: "5歳のつねひとが" },
+                                { en: "was playing", jp: "遊んでいました" },
+                                { en: "in a garden", jp: "庭で" },
+                                { en: "with another boy.", jp: "もう一人の男の子と一緒に。" }
+                            ],
+                            [
+                                { en: "When Tsunehito touched the ball,", jp: "つねひとがボールにさわると、" },
+                                { en: "the little Tsunehito", jp: "小さなつねひとが" },
+                                { en: "in the movie", jp: "映像の中の" },
+                                { en: "looked at him", jp: "こちらを見て" },
+                                { en: "and said,", jp: "言いました。" },
+                                { en: "\"You finally came.\"", jp: "『やっと来たね』" }
+                            ],
+                            [
+                                { en: "In the movie,", jp: "映像の中で、" },
+                                { en: "the little Tsunehito gave", jp: "小さなつねひとは渡していました" },
+                                { en: "the same key", jp: "同じ鍵を" },
+                                { en: "to the boy", jp: "男の子に" },
+                                { en: "next to him.", jp: "隣の。" },
+                                { en: "\"It is a promise.", jp: "『約束だよ。" },
+                                { en: "Someday,", jp: "いつか、" },
+                                { en: "you will save the world,\"", jp: "君が世界を救うんだ』" },
+                                { en: "the boy said.", jp: "男の子は言いました。" },
+                                { en: "\"Yes, I promise,\"", jp: "『うん、約束する』" },
+                                { en: "the little Tsunehito smiled.", jp: "小さなつねひとは笑って答えました。" }
+                            ],
+                            [
+                                { en: "Luna looked", jp: "ルナは見ていました" },
+                                { en: "at another ball", jp: "別のボールを" },
+                                { en: "and began to cry.", jp: "そして泣き始めました。" },
+                                { en: "\". . . I remember now,\"", jp: "「……思い出した」" },
+                                { en: "Luna said.", jp: "ルナは言いました。" },
+                                { en: "\"Long ago,", jp: "「ずっと昔、" },
+                                { en: "you saved me", jp: "あなたは私を助けてくれたことがある" },
+                                { en: "once.\"", jp: "一度」" }
+                            ],
+                            [
+                                { en: "Suddenly,", jp: "突然、" },
+                                { en: "the room shook hard,", jp: "部屋全体が強くゆれて、" },
+                                { en: "and all the balls shone red.", jp: "すべてのボールが赤く光り始めました。" },
+                                { en: "In the center", jp: "真ん中に" },
+                                { en: "of the room,", jp: "部屋の、" },
+                                { en: "a big black ball appeared.", jp: "大きな黒いボールがあらわれました。" },
+                                { en: "On it,", jp: "その表面には、" },
+                                { en: "there were words:", jp: "こう書いてありました。" },
+                                { en: "\"The Day Tsunehito Broke the World.\"", jp: "『つねひとが、世界をこわした日』" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b3c3",
+                        titleEn: "Chapter 3: The Bad Future",
+                        titleJp: "第3章　最悪の未来",
+                        paragraphs: [
+                            [
+                                { en: "The black ball opened.", jp: "黒いボールが開きました。" },
+                                { en: "In the movie,", jp: "映像の中では、" },
+                                { en: "there were no stars,", jp: "空に星が一つもなく、" },
+                                { en: "no sea,", jp: "海もなく、" },
+                                { en: "and no people.", jp: "人間もいませんでした。" },
+                                { en: "Only Tsunehito was standing there", jp: "つねひとだけがそこに立っていました" },
+                                { en: "with a red key", jp: "赤い光を放つ鍵を持って" },
+                                { en: "in his hand.", jp: "その手に。" }
+                            ],
+                            [
+                                { en: "\"Why . . .", jp: "『どうしてだ……" },
+                                { en: "I only wanted", jp: "僕はただしたかっただけなのに" },
+                                { en: "to save everyone!\"", jp: "みんなを助けようと！』" },
+                                { en: "the boy in the movie shouted.", jp: "映像の中の少年が叫びました。" },
+                                { en: "Then the red light grew big,", jp: "すると赤い光が大きくなり、" },
+                                { en: "and everything in the world", jp: "世界中のすべてのものが" },
+                                { en: "went away.", jp: "消えてしまいました。" }
+                            ],
+                            [
+                                { en: "\". . . Is this my future?\"", jp: "「……これが、僕の未来なのか？」" },
+                                { en: "Tsunehito asked.", jp: "つねひとは聞きました。" },
+                                { en: "\"This really happened", jp: "「これは実際に起きたことなの" },
+                                { en: "in another world,\"", jp: "別の世界でね」" },
+                                { en: "Luna said sadly.", jp: "ルナは悲しそうに言いました。" },
+                                { en: "\"Because you lost", jp: "「あなたが失ってしまったからよ" },
+                                { en: "someone very important.\"", jp: "とても大切な誰かを」" }
+                            ],
+                            [
+                                { en: "At that moment,", jp: "そのとき、" },
+                                { en: "the future Tsunehito", jp: "未来のつねひとが" },
+                                { en: "in the white mask", jp: "白い仮面をつけた" },
+                                { en: "came into the room.", jp: "部屋に入ってきました。" },
+                                { en: "\"Come with me,\"", jp: "「私と一緒に来い」" },
+                                { en: "the man said,", jp: "男は言って、" },
+                                { en: "and held out his hand.", jp: "手を差し出しました。" },
+                                { en: "\"If we make the twelve worlds", jp: "「もし12の世界をまとめれば" },
+                                { en: "into one,", jp: "一つに、" },
+                                { en: "we will not lose anyone.\"", jp: "誰も失わずにすむ」" }
+                            ],
+                            [
+                                { en: "But Tsunehito did not take his hand.", jp: "しかし、つねひとはその手を取りませんでした。" },
+                                { en: "\"If you really want", jp: "「もし本当にしたいなら" },
+                                { en: "to save the world,", jp: "世界を救いたいと、" },
+                                { en: "you should believe me,\"", jp: "僕を信じてくれるはずだ」" },
+                                { en: "Tsunehito said.", jp: "つねひとは言いました。" },
+                                { en: "\"You only want to forget", jp: "「君は忘れたいだけなんじゃないのか" },
+                                { en: "your own mistake.\"", jp: "自分が失敗したことを」" }
+                            ],
+                            [
+                                { en: "The man became angry", jp: "男は怒って" },
+                                { en: "and turned his key.", jp: "鍵を回しました。" },
+                                { en: "The black ball broke,", jp: "黒いボールがこわれ、" },
+                                { en: "and white light covered the world.", jp: "白い光が世界を包みました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b3c4",
+                        titleEn: "Chapter 4: A Letter from Chrono",
+                        titleJp: "第4章　クロノからの手紙",
+                        paragraphs: [
+                            [
+                                { en: "When Tsunehito woke up,", jp: "つねひとが目を覚ましたとき、" },
+                                { en: "he was back", jp: "彼は戻っていました" },
+                                { en: "in the old library.", jp: "いつもの古い図書館に。" },
+                                { en: "On the desk,", jp: "机の上には、" },
+                                { en: "there was a letter", jp: "一通の手紙がありました" },
+                                { en: "from the black cat Chrono.", jp: "黒猫のクロノからの。" }
+                            ],
+                            [
+                                { en: "Tsunehito opened the letter", jp: "つねひとは手紙を開いて" },
+                                { en: "and read it:", jp: "読みました。" },
+                                { en: "\"To Tsunehito.", jp: "『つねひとへ。" },
+                                { en: "The future Tsunehito", jp: "お前が会った未来のつねひとは、" },
+                                { en: "lived a future", jp: "未来を生きたつねひとだ" },
+                                { en: "that you did not choose.\"", jp: "お前が選ばなかった』" },
+                                { en: "\"And the true enemy", jp: "『そして本当の敵は、" },
+                                { en: "is the person", jp: "人物だ" },
+                                { en: "who made this world.\"", jp: "この世界を作った』" }
+                            ],
+                            [
+                                { en: "Then,", jp: "そのとき、" },
+                                { en: "the clock in the library", jp: "図書館の時計が" },
+                                { en: "rang thirteen times.", jp: "13回鳴りました。" },
+                                { en: "Behind Tsunehito,", jp: "つねひとのうしろに、" },
+                                { en: "a boy with silver hair", jp: "銀色の髪の少年が" },
+                                { en: "was standing.", jp: "立っていました。" }
+                            ],
+                            [
+                                { en: "The boy pointed", jp: "少年は指さしました" },
+                                { en: "out the window.", jp: "窓の外を。" },
+                                { en: "A very big eye", jp: "とても大きな目が" },
+                                { en: "was in the sky,", jp: "空に浮かんでいて、" },
+                                { en: "looking down", jp: "じっと見下ろしていました" },
+                                { en: "at the ground.", jp: "地上を。" }
+                            ],
+                            [
+                                { en: "\"Someone made this world,", jp: "「誰かがこの世界を作り、" },
+                                { en: "the twelve worlds,", jp: "12の世界を作り、" },
+                                { en: "and time,\"", jp: "そして時間を作ったんだ」" },
+                                { en: "the silver-haired boy said.", jp: "銀髪の少年は言いました。" },
+                                { en: "\"And someone made you", jp: "「そして君も作られたんだよ" },
+                                { en: "too.\"", jp: "同じように」" }
+                            ],
+                            [
+                                { en: "The boy snapped his fingers.", jp: "少年が指を鳴らしました。" },
+                                { en: "The library went away,", jp: "図書館の壁が消えて、" },
+                                { en: "and they were", jp: "二人はいました" },
+                                { en: "in a big white room", jp: "大きな白い空間に" },
+                                { en: "with many doors.", jp: "たくさんの扉が並ぶ。" },
+                                { en: "All the doors had", jp: "すべての扉には" },
+                                { en: "the name \"Tsunehito\"", jp: "『つねひと』という名前が" },
+                                { en: "on them.", jp: "書かれていました。" },
+                                { en: "\"You were made", jp: "「君は作られたんだ" },
+                                { en: "to end the world,\"", jp: "世界を終わらせるために」" },
+                                { en: "the boy said.", jp: "少年は言いました。" }
+                            ]
+                        ]
+                    }
+                ]
+            },
+            {
+                bookId: "book4",
+                bookTitleEn: "Book 4: The Maker of the World and His Sister",
+                bookTitleJp: "第4巻：神様の設計図と、自由意志を持つ少年",
+                chapters: [
+                    {
+                        id: "b4c1",
+                        titleEn: "Chapter 1: Many Doors with His Name",
+                        titleJp: "第1章　名前の書かれた無限の扉",
+                        paragraphs: [
+                            [
+                                { en: "\"You were made", jp: "「君は作られたんだ" },
+                                { en: "to end the world,\"", jp: "世界を終わらせるために」" },
+                                { en: "the silver-haired boy said.", jp: "銀色の髪の少年は言いました。" },
+                                { en: "But Tsunehito did not cry.", jp: "でも、つねひとは泣きませんでした。" },
+                                { en: "\"Do you have proof?\"", jp: "「それが本当だという証拠（しょうこ）はあるの？」" },
+                                { en: "Tsunehito asked.", jp: "つねひとは聞きました。" }
+                            ],
+                            [
+                                { en: "The boy laughed", jp: "少年は笑って" },
+                                { en: "and opened the last door.", jp: "一番奥の扉を開けました。" },
+                                { en: "Inside,", jp: "中には、" },
+                                { en: "there was a very big library.", jp: "とても大きな図書館がありました。" },
+                                { en: "Every book had", jp: "すべての本に" },
+                                { en: "a person's name", jp: "人間の名前が" },
+                                { en: "and their whole life", jp: "そしてその人の人生のすべてが" },
+                                { en: "in it.", jp: "書かれていました。" }
+                            ],
+                            [
+                                { en: "At the back,", jp: "一番奥には、" },
+                                { en: "there was a big black book:", jp: "大きな黒い本がありました。" },
+                                { en: "\"Tsunehito — Plan Zero.\"", jp: "『つねひと――世界を終わらせる計画・第零号』" },
+                                { en: "On the page,", jp: "ページの中には、" },
+                                { en: "it said:", jp: "こう書いてありました。" },
+                                { en: "\"Goal: End all worlds.", jp: "『目的：すべての世界を消すこと。" },
+                                { en: "End Date: Not Decided.\"", jp: "終わる日：まだ決まっていない』" }
+                            ],
+                            [
+                                { en: "Tsunehito closed the book.", jp: "つねひとは本を閉じました。" },
+                                { en: "\"The end date", jp: "「終わる日が" },
+                                { en: "is not decided yet,\"", jp: "まだ決まっていないんだね」" },
+                                { en: "he said.", jp: "彼は言いました。" },
+                                { en: "\"So no one can control", jp: "「つまり、誰も決めることはできないんだ" },
+                                { en: "my future.\"", jp: "僕の未来を」" },
+                                { en: "The silver-haired boy smiled.", jp: "銀髪の少年は微笑みました。" },
+                                { en: "\"You do not move", jp: "「君は動かない人間だね" },
+                                { en: "by the book.\"", jp: "計画の本どおりには」" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b4c2",
+                        titleEn: "Chapter 2: The Maker of the World",
+                        titleJp: "第2章　神様の正体",
+                        paragraphs: [
+                            [
+                                { en: "The silver-haired boy's name", jp: "銀髪の少年の名前は" },
+                                { en: "was Shion.", jp: "シオンといいました。" },
+                                { en: "Shion took Tsunehito", jp: "シオンはつねひとを連れていきました" },
+                                { en: "up to a white room.", jp: "上の階にある真っ白な部屋へ。" }
+                            ],
+                            [
+                                { en: "In the center", jp: "真ん中で" },
+                                { en: "of the room,", jp: "部屋の、" },
+                                { en: "a boy in white clothes", jp: "白い服を着た少年が" },
+                                { en: "was reading a book.", jp: "本を読んでいました。" },
+                                { en: "\"This is the Maker", jp: "「こちらが作られた方――" },
+                                { en: "of this world,\"", jp: "この世界の創造主（神様）だ」" },
+                                { en: "Shion said.", jp: "シオンが言いました。" }
+                            ],
+                            [
+                                { en: "The boy closed his book", jp: "少年は本を閉じて" },
+                                { en: "and looked at Tsunehito.", jp: "つねひとを見ました。" },
+                                { en: "\"Hi, Tsunehito,\"", jp: "「やあ、つねひと」" },
+                                { en: "he said", jp: "彼は言いました" },
+                                { en: "like a friend.", jp: "まるで友達のように。" },
+                                { en: "\"Are you God?\"", jp: "「君が神様なの？」" },
+                                { en: "Tsunehito asked.", jp: "つねひとは聞きました。" },
+                                { en: "\"Some people call me that,\"", jp: "「そう呼ぶ人もいるよ」" },
+                                { en: "the Maker smiled.", jp: "創造主は微笑みました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b4c3",
+                        titleEn: "Chapter 3: The Crystal of Memory",
+                        titleJp: "第3章　つねひとの設計図",
+                        paragraphs: [
+                            [
+                                { en: "\"I made the rules", jp: "「私はルールを作った" },
+                                { en: "of this world,\"", jp: "この世界の」" },
+                                { en: "the Maker said.", jp: "創造主は言いました。" },
+                                { en: "\"But I did not decide", jp: "「でも、私が決めたわけではないよ" },
+                                { en: "all your choices.", jp: "君のすべての選択を。" },
+                                { en: "And you have a special power.", jp: "そして君には特別な力がある。" },
+                                { en: "You can change the rules", jp: "君はルールそのものを変えられるんだ" },
+                                { en: "of the world.\"", jp: "世界の」" }
+                            ],
+                            [
+                                { en: "The Maker put a small crystal", jp: "創造主は小さな結晶を置きました" },
+                                { en: "on the desk.", jp: "机の上に。" },
+                                { en: "When Tsunehito touched it,", jp: "つねひとがそれにさわると、" },
+                                { en: "he saw memories", jp: "思い出が見えました" },
+                                { en: "from when he was five.", jp: "5歳だったころの。" },
+                                { en: "And he heard a warm voice:", jp: "そして優しい声が聞こえました。" },
+                                { en: "\"Please let this boy choose", jp: "『この子には選ばせてあげてください" },
+                                { en: "his own future.\"", jp: "自分で未来を』" }
+                            ],
+                            [
+                                { en: "\"Whose voice was that?\"", jp: "「今の声は……だれ？」" },
+                                { en: "Tsunehito asked.", jp: "つねひとは聞きました。" },
+                                { en: "\"If you know that now,", jp: "「今それを知ったら、" },
+                                { en: "it will be hard", jp: "むずかしくなるよ" },
+                                { en: "for you,\"", jp: "君にとって」" },
+                                { en: "the Maker said.", jp: "創造主は言いました。" },
+                                { en: "\"I will decide that", jp: "「それは僕が決めることだ" },
+                                { en: "by myself,\"", jp: "自分で」" },
+                                { en: "Tsunehito answered.", jp: "つねひとは答えました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b4c4",
+                        titleEn: "Chapter 4: The Secret of His Sister",
+                        titleJp: "第4章　創造主の失敗",
+                        paragraphs: [
+                            [
+                                { en: "\"Humans are strange,\"", jp: "「人間は不思議だ」" },
+                                { en: "the Maker said.", jp: "創造主は言いました。" },
+                                { en: "\"They help others", jp: "「誰かを助けたり、" },
+                                { en: "and never give up.", jp: "あきらめずに挑戦したりする。" },
+                                { en: "And you always think", jp: "そして君はいつも考える" },
+                                { en: "by yourself.\"", jp: "自分の頭で」" }
+                            ],
+                            [
+                                { en: "\"Then why was the future me", jp: "「だったら、どうして未来の僕は" },
+                                { en: "so sad?\"", jp: "あんなに悲しんでいたの？」" },
+                                { en: "Tsunehito asked.", jp: "つねひとは聞きました。" },
+                                { en: "\"You are hiding something.\"", jp: "「まだ何かかくしているね」" }
+                            ],
+                            [
+                                { en: "The Maker closed his eyes", jp: "創造主は目を閉じて" },
+                                { en: "and said,", jp: "言いました。" },
+                                { en: "\"You had a little sister.\"", jp: "「君には、小さな妹がいたんだ」" },
+                                { en: "Tsunehito was very surprised.", jp: "つねひとはとてもおどろきました。" },
+                                { en: "\"A sister?", jp: "「妹？" },
+                                { en: "Why don't I remember her?\"", jp: "どうして僕は覚えていないんだ！」" },
+                                { en: "\"To save you,", jp: "「君を守るために、" },
+                                { en: "she went away", jp: "彼女は自分の存在を消したんだ" },
+                                { en: "from this world.\"", jp: "この世界から」" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b4c5",
+                        titleEn: "Chapter 5: Meeting His Sister Again",
+                        titleJp: "第5章　存在しない妹",
+                        paragraphs: [
+                            [
+                                { en: "\"When you were five,\"", jp: "「君が5歳のとき」" },
+                                { en: "the Maker said,", jp: "創造主は説明しました。" },
+                                { en: "\"your world almost broke.", jp: "「君の世界がこわれかけた。" },
+                                { en: "Your sister gave herself", jp: "妹は自分の存在を差し出して、" },
+                                { en: "to keep the world safe.", jp: "世界と君を守ったんだ。" },
+                                { en: "Everyone in the world", jp: "世界中の誰もが" },
+                                { en: "forgot about her.\"", jp: "彼女のことを忘れてしまった」" }
+                            ],
+                            [
+                                { en: "\"Where is my sister", jp: "「僕の妹はどこにいるんだ" },
+                                { en: "now?!\"", jp: "今！」" },
+                                { en: "Tsunehito shouted.", jp: "つねひとは叫びました。" },
+                                { en: "At that moment,", jp: "その瞬間、" },
+                                { en: "a door appeared", jp: "一つの扉があらわれました" },
+                                { en: "behind the Maker.", jp: "創造主のうしろに。" },
+                                { en: "Tsunehito remembered", jp: "つねひとは思い出しました" },
+                                { en: "a small warm hand:", jp: "小さな温かい手を。" },
+                                { en: "\"Big brother,", jp: "『お兄ちゃん、" },
+                                { en: "don't forget me.\"", jp: "私のこと、忘れないでね』" }
+                            ],
+                            [
+                                { en: "Tears came", jp: "涙がこぼれました" },
+                                { en: "to Tsunehito's eyes.", jp: "つねひとの目から。" },
+                                { en: "\"I remember!\"", jp: "「思い出した！」" },
+                                { en: "The door opened,", jp: "扉が開き、" },
+                                { en: "and Tsunehito ran", jp: "つねひとは走りました" },
+                                { en: "down the dark stairs.", jp: "暗い階段の下へと。" }
+                            ],
+                            [
+                                { en: "At the bottom,", jp: "階段の一番下には、" },
+                                { en: "a little girl", jp: "小さな女の子が" },
+                                { en: "in a white dress", jp: "白いワンピースを着た" },
+                                { en: "was standing.", jp: "立っていました。" },
+                                { en: "\"Welcome back, big brother,\"", jp: "「おかえり、お兄ちゃん」" },
+                                { en: "she smiled.", jp: "女の子は笑いました。" },
+                                { en: "\"I'm sorry I'm late!\"", jp: "「ごめん、遅くなってごめん！」" },
+                                { en: "Tsunehito held her hand.", jp: "つねひとは彼女の手をにぎりました。" }
+                            ],
+                            [
+                                { en: "Suddenly,", jp: "突然、" },
+                                { en: "the room began to break.", jp: "部屋の壁がこわれ始めました。" },
+                                { en: "\"This time,", jp: "「今度こそ、" },
+                                { en: "I will save you!\"", jp: "僕が君を助ける！」" },
+                                { en: "Tsunehito said.", jp: "つねひとは言いました。" },
+                                { en: "The girl smiled sadly.", jp: "女の子は悲しそうに笑いました。" },
+                                { en: "\"Big brother . . .", jp: "「お兄ちゃん……" },
+                                { en: "if you save me,", jp: "私を助けたら、" },
+                                { en: "the world will go away.\"", jp: "世界が消えちゃうよ」" }
+                            ]
+                        ]
+                    }
+                ]
+            },
+            {
+                bookId: "book5",
+                bookTitleEn: "Book 5: Save His Sister and Change the Rules",
+                bookTitleJp: "第5巻：妹を救え。そして世界のルールを壊せ。",
+                chapters: [
+                    {
+                        id: "b5c1",
+                        titleEn: "Chapter 1: The Third Answer",
+                        titleJp: "第1章　三つ目の答え",
+                        paragraphs: [
+                            [
+                                { en: "\"If I save you,", jp: "「君を助けたら、" },
+                                { en: "the world goes away.", jp: "世界が消える。" },
+                                { en: "Who made that rule?\"", jp: "そのルールは、誰が決めたの？」" },
+                                { en: "Tsunehito held his sister's hand.", jp: "つねひとは妹の手をにぎりました。" },
+                                { en: "\"I will save both you", jp: "「僕は君も、" },
+                                { en: "and the world.", jp: "そして世界も、両方とも救う。" },
+                                { en: "I will find a third answer!\"", jp: "そのための三つ目の答えを見つけるんだ！」" }
+                            ],
+                            [
+                                { en: "At that moment,", jp: "その瞬間、" },
+                                { en: "the room stopped breaking.", jp: "部屋がこわれるのが止まりました。" },
+                                { en: "The Maker and Shion", jp: "創造主とシオンが" },
+                                { en: "came into the room.", jp: "部屋に入ってきました。" },
+                                { en: "\"Your strong wish", jp: "「君の強い願いが、" },
+                                { en: "started to change the rules", jp: "ルールを変え始めたんだよ" },
+                                { en: "of the world,\"", jp: "世界の」" },
+                                { en: "Shion said.", jp: "シオンは言いました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b5c2",
+                        titleEn: "Chapter 2: The Heart of the World",
+                        titleJp: "第2章　世界の心臓",
+                        paragraphs: [
+                            [
+                                { en: "The Maker took them", jp: "創造主はみんなを連れていきました" },
+                                { en: "to a big blue ball", jp: "大きな青い光の球（たま）のところへ" },
+                                { en: "called the \"Heart of the World.\"", jp: "『世界の心臓』と呼ばれる。" },
+                                { en: "On it,", jp: "その表面には、" },
+                                { en: "there was a rule", jp: "一つのルールが書いてありました" },
+                                { en: "in red words:", jp: "赤い文字で。" },
+                                { en: "\"To keep one world safe,", jp: "『一つの世界を守るためには、" },
+                                { en: "we need power", jp: "エネルギー（力）が必要である" },
+                                { en: "from outside.\"", jp: "外の世界から』" }
+                            ],
+                            [
+                                { en: "Tsunehito read the words", jp: "つねひとはその文字を読んで" },
+                                { en: "and said,", jp: "言いました。" },
+                                { en: "\"Wait.", jp: "「待って。" },
+                                { en: "This rule only talks", jp: "このルールは言っているだけだ" },
+                                { en: "about power.", jp: "必要なエネルギーについて。" },
+                                { en: "We don't need to lose", jp: "犠牲（ぎせい）にする必要はないよ" },
+                                { en: "one person.", jp: "誰か一人を。" },
+                                { en: "There must be another way!\"", jp: "きっとほかの方法があるはずだ！」" },
+                                { en: "Then a new door appeared:", jp: "すると新しい扉があらわれました。" },
+                                { en: "\"Room of the Lost World.\"", jp: "『失われた世界の実験室』" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b5c3",
+                        titleEn: "Chapter 3: The Broken World",
+                        titleJp: "第3章　失敗した世界",
+                        paragraphs: [
+                            [
+                                { en: "Beyond the door,", jp: "扉の向こうには、" },
+                                { en: "there was a broken town", jp: "こわれた街と" },
+                                { en: "and a tall tower.", jp: "高い塔（とう）がありました。" },
+                                { en: "\"Long ago,", jp: "「むかし、" },
+                                { en: "I tried to save my friend", jp: "私は友人を救おうとして" },
+                                { en: "and changed the rule", jp: "ルールを変えた" },
+                                { en: "in this world,\"", jp: "この世界で」" },
+                                { en: "the Maker said.", jp: "創造主は言いました。" },
+                                { en: "\"But I failed,", jp: "「しかし私は失敗して、" },
+                                { en: "and this world broke.\"", jp: "この世界はこわれてしまったのだ」" }
+                            ],
+                            [
+                                { en: "\"Then let's look closely", jp: "「だったら、くわしく調べよう" },
+                                { en: "at why it failed,\"", jp: "どうして失敗したのかを」" },
+                                { en: "Tsunehito said,", jp: "つねひとは言いました、" },
+                                { en: "and he walked", jp: "そして歩いていきました" },
+                                { en: "toward the tower.", jp: "その塔へ向かって。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b5c4",
+                        titleEn: "Chapter 4: Two Sisters",
+                        titleJp: "第4章　妹が二人いる",
+                        paragraphs: [
+                            [
+                                { en: "At the top", jp: "一番上で" },
+                                { en: "of the tower,", jp: "塔の、" },
+                                { en: "Tsunehito found an old machine.", jp: "つねひとは古い機械を見つけました。" },
+                                { en: "\"With this machine,", jp: "「この機械を直せば、" },
+                                { en: "we can get a little power", jp: "少しずつエネルギーを集められるよ" },
+                                { en: "from many worlds!\"", jp: "たくさんの世界から！」" },
+                                { en: "Tsunehito said.", jp: "つねひとは言いました。" }
+                            ],
+                            [
+                                { en: "Just then,", jp: "そのとき、" },
+                                { en: "another girl", jp: "もう一人の女の子が" },
+                                { en: "with the same face", jp: "妹と同じ顔をした" },
+                                { en: "as his sister", jp: "（女の子が）" },
+                                { en: "appeared.", jp: "あらわれました。" },
+                                { en: "\"Stop, big brother!\"", jp: "「やめて、お兄ちゃん！」" },
+                                { en: "she said.", jp: "彼女は言いました。" },
+                                { en: "\"I came from a future", jp: "「私は未来から来たの" },
+                                { en: "where this machine broke the world.\"", jp: "この機械で世界がこわれてしまった」" }
+                            ],
+                            [
+                                { en: "\"Thank you for telling me,\"", jp: "「教えてくれてありがとう」" },
+                                { en: "Tsunehito said.", jp: "つねひとは言いました。" },
+                                { en: "\"Both of you", jp: "「君たちは二人とも" },
+                                { en: "are my sister.\"", jp: "僕の妹だ」" },
+                                { en: "Then the two sisters", jp: "すると二人の妹が" },
+                                { en: "shone brightly", jp: "明るく光って" },
+                                { en: "and became one.", jp: "一人に重なりました。" },
+                                { en: "Suddenly,", jp: "しかしその直後、" },
+                                { en: "the machine started to move", jp: "機械が勝手に動き始めて、" },
+                                { en: "and connected all the worlds.", jp: "すべての世界を一つにつなぎました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b5c5",
+                        titleEn: "Chapter 5: The First Tsunehito",
+                        titleJp: "第5章　世界の向こう側にいる者",
+                        paragraphs: [
+                            [
+                                { en: "Tsunehito was", jp: "つねひとは立っていました" },
+                                { en: "in a white space.", jp: "白い空間に。" },
+                                { en: "In front of a door,", jp: "扉の前には、" },
+                                { en: "another Tsunehito", jp: "もう一人のつねひとが" },
+                                { en: "in black clothes", jp: "黒い服を着た" },
+                                { en: "was standing.", jp: "立っていました。" },
+                                { en: "\"I am the first Tsunehito,\"", jp: "「私は、最初のつねひとだ」" },
+                                { en: "he said.", jp: "彼は言いました。" },
+                                { en: "\"I made the worlds", jp: "「私は何度も世界を作った" },
+                                { en: "to see if humans", jp: "人間が本当にできるのかを知るために" },
+                                { en: "can truly choose their future.\"", jp: "自分の意志で未来を選ぶことが」" }
+                            ],
+                            [
+                                { en: "\"You have two choices,\"", jp: "「君には二つの選択肢（せんたくし）がある」" },
+                                { en: "the first Tsunehito said.", jp: "最初のつねひとは言いました。" },
+                                { en: "\"Rule all the worlds,", jp: "「すべての世界を一人で管理するか、" },
+                                { en: "or make all the worlds free.\"", jp: "すべての世界を自由にするかだ」" }
+                            ],
+                            [
+                                { en: "Tsunehito shook his head.", jp: "つねひとは首を横に振りました。" },
+                                { en: "\"I will choose neither.", jp: "「どちらも選ばないよ。" },
+                                { en: "Everyone living in the world", jp: "世界に生きる人たちみんなで" },
+                                { en: "can keep the world", jp: "世界を守っていけばいいんだ" },
+                                { en: "together!\"", jp: "一緒に！」" },
+                                { en: "Then the thirteen bells rang,", jp: "すると13回の鐘が鳴り、" },
+                                { en: "and words appeared", jp: "文字があらわれました" },
+                                { en: "on the door:", jp: "扉に。" },
+                                { en: "\"Final Test: Start.\"", jp: "『最終テスト、開始』" }
+                            ]
+                        ]
+                    }
+                ]
+            },
+            {
+                bookId: "book6",
+                bookTitleEn: "Book 6: Many Tsunehitos and the Last Boy",
+                bookTitleJp: "第6巻：無限のつねひとと、最後の一人",
+                chapters: [
+                    {
+                        id: "b6c1",
+                        titleEn: "Chapter 1: Beyond the Door",
+                        titleJp: "第1章　扉の向こうにいた少年",
+                        paragraphs: [
+                            [
+                                { en: "\"Aren't you scared, big brother?\"", jp: "「お兄ちゃん、こわくないの？」" },
+                                { en: "his sister asked.", jp: "妹が聞きました。" },
+                                { en: "\"I am scared,\"", jp: "「こわいよ」" },
+                                { en: "Tsunehito answered.", jp: "つねひとは答えました。" },
+                                { en: "\"Because I have important people", jp: "「でも、それは大切な人たちがいるからだよ" },
+                                { en: "that I don't want to lose.\"", jp: "失いたくない」" },
+                                { en: "He held his sister's hand", jp: "彼は妹の手をにぎり、" },
+                                { en: "and opened the door.", jp: "扉を開けました。" },
+                                { en: "Inside,", jp: "中には、" },
+                                { en: "there were thousands of Tsunehitos.", jp: "何千人ものつねひとが立っていました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b6c2",
+                        titleEn: "Chapter 2: Many Mistakes",
+                        titleJp: "第2章　無限の失敗",
+                        paragraphs: [
+                            [
+                                { en: "Around Tsunehito,", jp: "つねひとのまわりに、" },
+                                { en: "he saw many sad worlds.", jp: "たくさんの悲しい世界が見えました。" },
+                                { en: "\"Look,\"", jp: "「見ろ」" },
+                                { en: "one of the Tsunehitos said.", jp: "一人のつねひとが言いました。" },
+                                { en: "\"In every world,", jp: "「どの世界でも、" },
+                                { en: "you make mistakes", jp: "お前は失敗して" },
+                                { en: "and lose someone.\"", jp: "誰かを失っている」" }
+                            ],
+                            [
+                                { en: "But Tsunehito saw", jp: "でも、つねひとは見つけました、" },
+                                { en: "that people were smiling", jp: "人々が笑っている場面が" },
+                                { en: "in every world too.", jp: "どの世界にもあることを。" },
+                                { en: "\"I don't want a world", jp: "「僕は世界を作りたいわけじゃない" },
+                                { en: "with no mistakes,\"", jp: "失敗のない」" },
+                                { en: "Tsunehito said.", jp: "つねひとは言いました。" },
+                                { en: "\"I want a world", jp: "「僕は世界を作りたいんだ" },
+                                { en: "where everyone can try again", jp: "みんなでまたやり直せる" },
+                                { en: "after a mistake!\"", jp: "失敗したあとに！」" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b6c3",
+                        titleEn: "Chapter 3: Believing in Himself",
+                        titleJp: "第3章　最後の一人",
+                        paragraphs: [
+                            [
+                                { en: "All the Tsunehitos went away,", jp: "たくさんのつねひとが消えていき、" },
+                                { en: "and only one five-year-old Tsunehito", jp: "5歳の小さなつねひとだけが" },
+                                { en: "was left.", jp: "残りました。" },
+                                { en: "\"Do you believe", jp: "「お前は信じているか" },
+                                { en: "in yourself?\"", jp: "自分自身を？」" },
+                                { en: "the young boy asked.", jp: "小さな少年は聞きました。" },
+                                { en: "\"I sometimes make mistakes,\"", jp: "「僕はまちがえることもある」" },
+                                { en: "Tsunehito said,", jp: "つねひとは言いました。" },
+                                { en: "\"but I can think again", jp: "「でも、まちがえても考え直せる自分を" },
+                                { en: "and try again.\"", jp: "僕は信じているよ」" },
+                                { en: "Then Luna, Shion, and Chrono", jp: "するとルナ、シオン、クロノが" },
+                                { en: "came back to him.", jp: "彼のところへ戻ってきました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b6c4",
+                        titleEn: "Chapter 4: Doors of the Thirteenth World",
+                        titleJp: "第4章　十三番目の世界の秘密",
+                        paragraphs: [
+                            [
+                                { en: "In the thirteenth world,", jp: "13番目の世界には、" },
+                                { en: "there was a door:", jp: "こんな扉がありました。" },
+                                { en: "\"A World Where His Sister Never Left.\"", jp: "『最初から妹を失わなかった世界』" },
+                                { en: "\"Don't open it!\"", jp: "「開けないで！」" },
+                                { en: "his sister said.", jp: "妹が言いました。" },
+                                { en: "\"I want to stay with you", jp: "「私はお兄ちゃんと一緒にいたいの" },
+                                { en: "as the me of now!\"", jp: "今の私のままで！」" }
+                            ],
+                            [
+                                { en: "Suddenly,", jp: "突然、" },
+                                { en: "a black ring appeared,", jp: "黒い輪があらわれて、" },
+                                { en: "and a boy in a white mask", jp: "白い仮面の少年が" },
+                                { en: "came out.", jp: "出てきました。" },
+                                { en: "He took off his mask", jp: "彼は仮面を外して" },
+                                { en: "and said,", jp: "言いました。" },
+                                { en: "\"I am the first boy", jp: "「僕は最初の人間だ" },
+                                { en: "you could not save.\"", jp: "お前が救えなかった」" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b6c5",
+                        titleEn: "Chapter 5: The Boy Without a Name",
+                        titleJp: "第5章　存在しなかった少年",
+                        paragraphs: [
+                            [
+                                { en: "\"I have no name,\"", jp: "「僕には名前がない」" },
+                                { en: "the boy said sadly.", jp: "少年は悲しそうに言いました。" },
+                                { en: "\"When you were five,", jp: "「お前が5歳のとき、" },
+                                { en: "I gave my life", jp: "僕は自分の存在を差し出した" },
+                                { en: "to save the world,", jp: "世界を守るために、" },
+                                { en: "and everyone forgot me.", jp: "そして誰も僕を覚えていなかった。" },
+                                { en: "I just did not want", jp: "僕は、ただ嫌だったんだ" },
+                                { en: "to be forgotten!\"", jp: "忘れられるのが！」" },
+                                { en: "Tsunehito held out his hand.", jp: "つねひとは手を差し出しました。" },
+                                { en: "\"Let's think together!\"", jp: "「一緒に考えよう！」" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b6c6",
+                        titleEn: "Chapter 6: The Eye in the Dark",
+                        titleJp: "第6章　世界の外側から",
+                        paragraphs: [
+                            [
+                                { en: "In the dark sky,", jp: "暗い闇の中に、" },
+                                { en: "the giant eye opened", jp: "巨大な目が開いて" },
+                                { en: "and spoke:", jp: "言いました。" },
+                                { en: "\"All of your choices", jp: "『君が選んだすべてのことは、" },
+                                { en: "were part of my plan.\"", jp: "最初から私の計画どおりだったのだよ』" }
+                            ],
+                            [
+                                { en: "Tsunehito held his key", jp: "つねひとは鍵をにぎりしめて" },
+                                { en: "and said,", jp: "言いました。" },
+                                { en: "\"Even if you knew my choices,", jp: "「たとえ君が僕の選択を知っていたとしても、" },
+                                { en: "I chose them", jp: "それを選んだのは" },
+                                { en: "by myself!\"", jp: "僕自身だ！」" },
+                                { en: "A new door opened,", jp: "すると新しい扉が開き、" },
+                                { en: "and another Tsunehito", jp: "もう一人のつねひとが" },
+                                { en: "stood there", jp: "立っていました" },
+                                { en: "with a key.", jp: "同じ鍵を持って。" },
+                                { en: "\"I came here", jp: "「僕はここへ来た" },
+                                { en: "to erase you", jp: "お前を消しに" },
+                                { en: "from this world,\"", jp: "この世界から」" },
+                                { en: "the boy said.", jp: "その少年は言いました。" }
+                            ]
+                        ]
+                    }
+                ]
+            },
+            {
+                bookId: "book7",
+                bookTitleEn: "Book 7: The Two Keys and Towa",
+                bookTitleJp: "第7巻：世界を消す少年と、二つの鍵",
+                chapters: [
+                    {
+                        id: "b7c1",
+                        titleEn: "Chapter 1: The Key with Fourteen Marks",
+                        titleJp: "第1章　二人のつねひと",
+                        paragraphs: [
+                            [
+                                { en: "Tsunehito's key had thirteen marks,", jp: "つねひとの鍵には13個の印（しるし）がありましたが、" },
+                                { en: "but the other boy's key", jp: "もう一人の少年の鍵には" },
+                                { en: "had fourteen marks.", jp: "14個の印がありました。" },
+                                { en: "\"When you were five,", jp: "「お前が5歳のとき、" },
+                                { en: "you were saved,", jp: "お前の世界は救われたが、" },
+                                { en: "and my world was left alone", jp: "僕の世界は見捨てられて、" },
+                                { en: "in the cold dark", jp: "冷たい暗闇の中で" },
+                                { en: "for hundreds of years,\"", jp: "何百年もひとりぼっちだった」" },
+                                { en: "the boy said.", jp: "少年は言いました。" },
+                                { en: "Then he turned his key.", jp: "そして彼は鍵を回しました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b7c2",
+                        titleEn: "Chapter 2: We Will Remember You",
+                        titleJp: "第2章　消えていく世界",
+                        paragraphs: [
+                            [
+                                { en: "Sound and color", jp: "音と色が" },
+                                { en: "began to go away", jp: "消え始めました" },
+                                { en: "from the world.", jp: "世界から。" },
+                                { en: "Just then,", jp: "そのとき、" },
+                                { en: "his sister, Luna, Shion, and Chrono", jp: "妹、ルナ、シオン、そしてクロノが" },
+                                { en: "ran to Tsunehito.", jp: "つねひとのところへ走ってきました。" }
+                            ],
+                            [
+                                { en: "Luna stood", jp: "ルナは立ちました" },
+                                { en: "in front of the lonely boy.", jp: "ひとりぼっちだった少年の前に。" },
+                                { en: "\"Now we know about you,\"", jp: "「今、私たちはあなたのことを知ったわ」" },
+                                { en: "Luna said.", jp: "ルナは言いました。" },
+                                { en: "\"So we will remember you,", jp: "「だから私たちがあなたを覚える。" },
+                                { en: "and we will never forget you!\"", jp: "絶対にあなたを忘れないわ！」" },
+                                { en: "The boy stopped", jp: "少年は手を止めて、" },
+                                { en: "and put down his key.", jp: "ゆっくりと鍵を下ろしました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b7c3",
+                        titleEn: "Chapter 3: A New Name, Towa",
+                        titleJp: "第3章　最後の記憶",
+                        paragraphs: [
+                            [
+                                { en: "Tsunehito gave a name", jp: "つねひとは名前をつけました" },
+                                { en: "to the boy:", jp: "その少年に。" },
+                                { en: "\"Your name is Towa.", jp: "「君の名前は『トワ』だ。" },
+                                { en: "From now on,", jp: "これからは、" },
+                                { en: "you can spend time", jp: "時間を過ごせるように" },
+                                { en: "with us.\"", jp: "僕たちと一緒に」" },
+                                { en: "Then a fourteenth mark", jp: "すると14個目の印が" },
+                                { en: "appeared on Tsunehito's key.", jp: "つねひとの鍵にもあらわれました。" },
+                                { en: "Tsunehito and Towa", jp: "つねひととトワは" },
+                                { en: "turned their two keys", jp: "二つの鍵を回しました" },
+                                { en: "together.", jp: "同時に。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b7c4",
+                        titleEn: "Chapter 4: Sharing the Memory",
+                        titleJp: "第4章　二つの鍵が開くもの",
+                        paragraphs: [
+                            [
+                                { en: "A big door appeared.", jp: "大きな扉があらわれました。" },
+                                { en: "On the door,", jp: "扉には、" },
+                                { en: "it said:", jp: "こう書いてありました。" },
+                                { en: "\"Give your most important memory", jp: "『一番大切な記憶を差し出しなさい" },
+                                { en: "to open this door.\"", jp: "この扉を開けるために』" }
+                            ],
+                            [
+                                { en: "\"One person does not need", jp: "「誰か一人が失う必要はないよ" },
+                                { en: "to lose everything,\"", jp: "すべての記憶を」" },
+                                { en: "Tsunehito said.", jp: "つねひとは言いました。" },
+                                { en: "\"Let's share it", jp: "「みんなで少しずつ分け合おう" },
+                                { en: "together!\"", jp: "一緒に！」" },
+                                { en: "All the friends", jp: "仲間たち全員が" },
+                                { en: "put their hands", jp: "手を置きました" },
+                                { en: "on the door,", jp: "扉の上に、" },
+                                { en: "and the door opened", jp: "すると扉が開いて" },
+                                { en: "with bright light.", jp: "明るい光があふれました。" }
+                            ],
+                            [
+                                { en: "A girl came out", jp: "一人の少女が出てきて、" },
+                                { en: "and gave Tsunehito a key", jp: "つねひとに鍵を渡しました" },
+                                { en: "with fifteen marks.", jp: "15個の印がある。" },
+                                { en: "\"I am your first sister", jp: "「私はあなたの最初の妹よ" },
+                                { en: "from before you were born,\"", jp: "あなたが生まれる前にいた」" },
+                                { en: "she smiled.", jp: "彼女は微笑みました。" },
+                                { en: "Then the door to \"World Zero\" opened.", jp: "そして『第零世界』への扉が開きました。" }
+                            ]
+                        ]
+                    }
+                ]
+            },
+            {
+                bookId: "book8",
+                bookTitleEn: "Book 8: World Zero and the New Rules",
+                bookTitleJp: "第8巻：第零世界と、生まれる前のつねひと",
+                chapters: [
+                    {
+                        id: "b8c1",
+                        titleEn: "Chapter 1: A House with a Red Flower",
+                        titleJp: "第1章　生まれる前の世界",
+                        paragraphs: [
+                            [
+                                { en: "In World Zero,", jp: "第零世界には、" },
+                                { en: "there was no sun", jp: "太陽もなく、" },
+                                { en: "and no time.", jp: "時間もありませんでした。" },
+                                { en: "\"I can come here", jp: "「ここに逃げ込めるな" },
+                                { en: "when I forget my homework,\"", jp: "宿題を忘れた日に」" },
+                                { en: "Tsunehito joked,", jp: "つねひとが冗談を言い、" },
+                                { en: "and Luna laughed.", jp: "ルナが笑いました。" }
+                            ],
+                            [
+                                { en: "They found a small white house", jp: "みんなは小さな白い家を見つけました" },
+                                { en: "with a blue roof", jp: "青い屋根と" },
+                                { en: "and one red flower.", jp: "一輪の赤い花がある。" },
+                                { en: "Inside the house,", jp: "家の中には、" },
+                                { en: "a boy with Tsunehito's face", jp: "つねひとと同じ顔の少年が" },
+                                { en: "was waiting.", jp: "待っていました。" },
+                                { en: "\"I am the Tsunehito", jp: "「僕はつねひとだよ" },
+                                { en: "from before you were born,\"", jp: "君が生まれる前の」" },
+                                { en: "the boy said.", jp: "少年は言いました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b8c2",
+                        titleEn: "Chapter 2: The First Friend",
+                        titleJp: "第2章　最初の約束",
+                        paragraphs: [
+                            [
+                                { en: "\"Before the world began,", jp: "「世界が始まる前、" },
+                                { en: "there was nothing,\"", jp: "ここには何もなかった」" },
+                                { en: "the boy said.", jp: "少年は言いました。" },
+                                { en: "\"So I made the world.", jp: "「だから僕は世界を作ったんだ。" },
+                                { en: "And you were", jp: "そして君は、" },
+                                { en: "my very first friend.", jp: "僕の最初の友達だった。" },
+                                { en: "I sent you", jp: "僕は君を送り出したんだよ" },
+                                { en: "into the world", jp: "世界の中へ" },
+                                { en: "so you could live freely.\"", jp: "自由に生きられるようにね」" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b8c3",
+                        titleEn: "Chapter 3: Thinking Together",
+                        titleJp: "第3章　創造主の過ち",
+                        paragraphs: [
+                            [
+                                { en: "The Maker came", jp: "創造主が入ってきました" },
+                                { en: "into the house.", jp: "家の中に。" },
+                                { en: "\"I wanted to keep the world safe,", jp: "「私は世界を守りたかった、" },
+                                { en: "so I took away people's freedom,\"", jp: "だから人々の自由をうばってしまった」" },
+                                { en: "the Maker said sadly.", jp: "創造主は悲しそうに言いました。" },
+                                { en: "\"Then let's think again", jp: "「なら、もう一度考え直そう" },
+                                { en: "together —", jp: "一緒に――" },
+                                { en: "the three of us!\"", jp: "僕たち三人で！」" },
+                                { en: "Tsunehito said.", jp: "つねひとは言いました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b8c4",
+                        titleEn: "Chapter 4: The New Rules of the World",
+                        titleJp: "第4章　最後の設計図",
+                        paragraphs: [
+                            [
+                                { en: "Tsunehito wrote new rules", jp: "つねひとは新しいルールを書きました" },
+                                { en: "on a white paper:", jp: "白い紙の上に。" },
+                                { en: "\"Rule 1: Everyone can choose", jp: "『第一条：すべての人は選ぶことができる" },
+                                { en: "their own future.\"", jp: "自分の未来を』" },
+                                { en: "\"Rule 2: No one can decide everything", jp: "『第二条：誰か一人がすべてを決めることはできない" },
+                                { en: "alone.\"", jp: "ひとりだけでは』" },
+                                { en: "\"Rule 3: When we make a mistake,", jp: "『第三条：まちがえたときは、" },
+                                { en: "we can fix it together.\"", jp: "みんなで直すことができる』" },
+                                { en: "Then the white paper shone,", jp: "すると白い紙が光り、" },
+                                { en: "and the bell rang fifteen times.", jp: "鐘が15回鳴りました。" }
+                            ]
+                        ]
+                    },
+                    {
+                        id: "b8c5",
+                        titleEn: "Chapter 5: The Girl Who Wrote the Story",
+                        titleJp: "第5章　世界が選ぶ未来",
+                        paragraphs: [
+                            [
+                                { en: "All twelve worlds", jp: "12の世界すべてが" },
+                                { en: "began to move again,", jp: "ふたたび動き始め、" },
+                                { en: "and the lost people came back.", jp: "消えていた人たちも戻ってきました。" },
+                                { en: "Now, everyone shared the power", jp: "今、すべての人が力を分け合って" },
+                                { en: "to keep the world safe.", jp: "世界を守れるようになりました。" }
+                            ],
+                            [
+                                { en: "However,", jp: "しかしそのとき、" },
+                                { en: "the sky opened,", jp: "空が割れて、" },
+                                { en: "and a girl with silver hair", jp: "銀色の髪をした一人の少女が" },
+                                { en: "appeared.", jp: "あらわれました。" },
+                                { en: "She had the same face", jp: "彼女は同じ顔をしていました" },
+                                { en: "as Tsunehito's sister.", jp: "つねひとの妹と。" }
+                            ],
+                            [
+                                { en: "\"I wrote your story", jp: "「私があなたたちの物語を書いたのよ" },
+                                { en: "at the very beginning,\"", jp: "一番最初にね」" },
+                                { en: "the girl smiled.", jp: "少女は微笑みました。" },
+                                { en: "At that moment,", jp: "その瞬間、" },
+                                { en: "Tsunehito's key broke in two,", jp: "つねひとの鍵が二つに割れて、" },
+                                { en: "and all the clocks stopped.", jp: "世界中の時計が止まりました。" },
+                                { en: "\"Now, Tsunehito,", jp: "「さあ、つねひと。" },
+                                { en: "please listen to my story.\"", jp: "今度は私の物語を聞いてちょうだい」" },
+                                { en: "Continued in Book 9!", jp: "――第9巻『最初に消された少女と、世界の作者』へ続く！" }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // =========================================================================
+        // APPLICATION STATE
+        // =========================================================================
+        let currentBookIdx = 0;
+        let currentChapterIdx = 0;
+        let flatChunks = []; // Flattened list of chunks in current chapter (or filtered)
+        let activeChunkIndex = 0;
+        let isPlaying = false;
+        let playbackSpeed = 1.0;
+        // repeatMode: 'continuous' | 'repeatOne' | 'single'
+        let repeatMode = 'continuous';
+        // pauseMode: 'short' (400ms) | 'medium' (1000ms) | 'shadow' (duration * 1.1)
+        let pauseMode = 'short';
+        let showJapanese = true;
+        let viewMode = 'card'; // 'card' | 'inline'
+        let filterWeakOnly = false;
+        let weakChunkSet = new Set(); // Stores unique chunk IDs e.g. "b1c1_p0_c1"
+
+        // Audio / TTS State
+        let ttsEngine = 'browser'; // 'browser' | 'gemini'
+        let selectedVoiceURI = '';
+        let availableVoices = [];
+        let activeTimer = null;
+        let activeAudioElement = null;
+        const geminiAudioCache = new Map();
+        let currentPlaySession = 0;
+
+        // =========================================================================
+        // INITIALIZATION
+        // =========================================================================
+        window.addEventListener('DOMContentLoaded', () => {
+            initVoices();
+            renderSidebar();
+            loadChapter(0, 0);
+            setupKeyboardShortcuts();
+            setupMobileDrawer();
+        });
+
+        function setupMobileDrawer() {
+            const btn = document.getElementById('mobileMenuBtn');
+            btn.addEventListener('click', () => {
+                const sb = document.getElementById('sidebar');
+                const bd = document.getElementById('sidebarBackdrop');
+                const isHidden = sb.classList.contains('-translate-x-full');
+                if (isHidden) {
+                    sb.classList.remove('-translate-x-full');
+                    bd.classList.remove('hidden');
+                } else {
+                    closeSidebar();
+                }
+            });
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('sidebarBackdrop').classList.add('hidden');
+        }
+
+        // =========================================================================
+        // NAVIGATION & RENDERING
+        // =========================================================================
+        function renderSidebar() {
+            const container = document.getElementById('chapterNavContainer');
+            container.innerHTML = '';
+
+            STORY_BOOKS.forEach((book, bIdx) => {
+                const bookDiv = document.createElement('div');
+                bookDiv.className = 'space-y-1.5';
+
+                const bookHeader = document.createElement('div');
+                bookHeader.className = 'px-2 py-1 text-xs font-bold uppercase tracking-wider text-amber-400/90 font-cinzel flex items-center gap-1.5';
+                bookHeader.innerHTML = `<i class="ph-fill ph-book-bookmark"></i> <span>${book.bookTitleJp.split('：')[0]}</span>`;
+                bookDiv.appendChild(bookHeader);
+
+                const chapList = document.createElement('div');
+                chapList.className = 'space-y-1';
+
+                book.chapters.forEach((chap, cIdx) => {
+                    const isSelected = (bIdx === currentBookIdx && cIdx === currentChapterIdx);
+                    // Count weak chunks in this chapter
+                    let chapWeakCount = 0;
+                    chap.paragraphs.forEach((p, pIdx) => {
+                        p.forEach((_, ckIdx) => {
+                            if (weakChunkSet.has(`${chap.id}_p${pIdx}_c${ckIdx}`)) chapWeakCount++;
+                        });
+                    });
+
+                    const btn = document.createElement('button');
+                    btn.onclick = () => {
+                        loadChapter(bIdx, cIdx);
+                        closeSidebar();
+                    };
+                    btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs transition flex items-center justify-between gap-2 ${
+                        isSelected
+                            ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 font-semibold shadow-sm'
+                            : 'text-slate-400 hover:bg-slate-800/70 hover:text-slate-200'
+                    }`;
+
+                    btn.innerHTML = `
+                        <div class="truncate">
+                            <div class="truncate">${chap.titleEn}</div>
+                            <div class="text-[11px] opacity-75 font-serifjp truncate">${chap.titleJp}</div>
+                        </div>
+                        ${chapWeakCount > 0 ? `<span class="px-1.5 py-0.5 text-[10px] rounded-full bg-amber-500/20 text-amber-300 font-bold shrink-0">★${chapWeakCount}</span>` : ''}
+                    `;
+                    chapList.appendChild(btn);
+                });
+
+                bookDiv.appendChild(chapList);
+                container.appendChild(bookDiv);
+            });
+
+            document.getElementById('weakCountBadge').textContent = weakChunkSet.size;
+        }
+
+        function loadChapter(bIdx, cIdx) {
+            stopPlayback();
+            currentBookIdx = bIdx;
+            currentChapterIdx = cIdx;
+            activeChunkIndex = 0;
+
+            const book = STORY_BOOKS[bIdx];
+            const chapter = book.chapters[cIdx];
+
+            document.getElementById('bookSubtitle').textContent = book.bookTitleEn;
+            document.getElementById('chapterTitleEn').textContent = chapter.titleEn;
+            document.getElementById('chapterTitleJp').textContent = chapter.titleJp;
+
+            buildFlatChunks();
+            renderReaderContent();
+            renderSidebar();
+            updateActiveChunkBar();
+            updateChapterNavButtons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function buildFlatChunks() {
+            const chapter = STORY_BOOKS[currentBookIdx].chapters[currentChapterIdx];
+            flatChunks = [];
+            chapter.paragraphs.forEach((para, pIdx) => {
+                para.forEach((chunk, cIdx) => {
+                    const id = `${chapter.id}_p${pIdx}_c${cIdx}`;
+                    if (!filterWeakOnly || weakChunkSet.has(id)) {
+                        flatChunks.push({
+                            id,
+                            pIdx,
+                            cIdx,
+                            en: chunk.en,
+                            jp: chunk.jp
+                        });
+                    }
+                });
+            });
+            if (activeChunkIndex >= flatChunks.length) {
+                activeChunkIndex = 0;
+            }
+        }
+
+        function renderReaderContent() {
+            const container = document.getElementById('readerContent');
+            container.innerHTML = '';
+
+            const chapter = STORY_BOOKS[currentBookIdx].chapters[currentChapterIdx];
+
+            if (flatChunks.length === 0) {
+                container.innerHTML = `
+                    <div class="p-12 rounded-2xl bg-slate-900/60 border border-slate-800 text-center space-y-3">
+                        <i class="ph-duotone ph-star text-4xl text-amber-400"></i>
+                        <div class="text-base font-medium text-white">このチャプターには「苦手チェック」されたチャンクがありません</div>
+                        <p class="text-xs text-slate-400">各チャンクの星マークをタップすると苦手リストに登録され、集中的に反復練習できます。</p>
+                        <button onclick="toggleWeakFilter()" class="mt-2 px-4 py-2 rounded-xl bg-sky-500/20 text-sky-300 border border-sky-500/40 text-xs font-medium">
+                            すべてのチャンクを表示する
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Group flatChunks by paragraph index so paragraphs stay structured
+            const paraMap = new Map();
+            flatChunks.forEach((fc, globalIdx) => {
+                if (!paraMap.has(fc.pIdx)) paraMap.set(fc.pIdx, []);
+                paraMap.get(fc.pIdx).push({ ...fc, globalIdx });
+            });
+
+            paraMap.forEach((chunksInPara, pIdx) => {
+                if (viewMode === 'card') {
+                    const paraBlock = document.createElement('div');
+                    paraBlock.className = 'p-4 sm:p-5 rounded-2xl bg-slate-900/65 border border-slate-800/90 shadow-md space-y-3';
+
+                    const grid = document.createElement('div');
+                    grid.className = 'flex flex-wrap items-stretch gap-2.5';
+
+                    chunksInPara.forEach((item) => {
+                        const isCurrent = item.globalIdx === activeChunkIndex;
+                        const isWeak = weakChunkSet.has(item.id);
+
+                        const card = document.createElement('div');
+                        card.id = `chunk-el-${item.globalIdx}`;
+                        card.className = `chunk-card group relative flex flex-col justify-between p-3 rounded-xl border border-slate-700/80 bg-slate-950/80 cursor-pointer select-none ${
+                            isCurrent ? 'chunk-active' : 'hover:border-slate-600'
+                        } ${isWeak ? 'chunk-weak' : ''}`;
+
+                        card.onclick = (e) => {
+                            if (e.target.closest('.weak-star-btn') || e.target.closest('.repeat-one-btn')) return;
+                            playFromChunk(item.globalIdx);
+                        };
+
+                        card.innerHTML = `
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="text-sm sm:text-base font-medium text-slate-100 leading-snug tracking-wide">
+                                    ${escapeHtml(item.en)}
+                                    <span class="text-sky-400/70 font-mono font-bold ml-1">/</span>
+                                </div>
+                                <div class="flex items-center gap-1 shrink-0">
+                                    <button class="repeat-one-btn p-1 rounded-md text-slate-500 hover:text-sky-300 hover:bg-slate-800 transition" title="このチャンクを単発リピート" onclick="playSingleChunkLoop(${item.globalIdx})">
+                                        <i class="ph-bold ph-repeat text-xs"></i>
+                                    </button>
+                                    <button class="weak-star-btn p-1 rounded-md transition ${isWeak ? 'text-amber-400' : 'text-slate-600 hover:text-slate-400'}" title="苦手チェック" onclick="toggleWeakById('${item.id}')">
+                                        <i class="ph-fill ph-star text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="jp-translation mt-1.5 pt-1.5 border-t border-slate-800/80 text-xs text-slate-400 font-serifjp ${showJapanese ? '' : 'hidden'}">
+                                ${escapeHtml(item.jp)}
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+
+                    paraBlock.appendChild(grid);
+                    container.appendChild(paraBlock);
+
+                } else {
+                    // Inline Slash Reading Mode
+                    const paraBlock = document.createElement('div');
+                    paraBlock.className = 'p-5 rounded-2xl bg-slate-900/65 border border-slate-800/90 leading-loose space-y-2';
+
+                    const inlineWrap = document.createElement('div');
+                    inlineWrap.className = 'flex flex-wrap items-baseline gap-x-1.5 gap-y-3';
+
+                    chunksInPara.forEach((item) => {
+                        const isCurrent = item.globalIdx === activeChunkIndex;
+                        const isWeak = weakChunkSet.has(item.id);
+
+                        const span = document.createElement('span');
+                        span.id = `chunk-el-${item.globalIdx}`;
+                        span.onclick = () => playFromChunk(item.globalIdx);
+                        span.className = `inline-flex flex-col px-2 py-1 rounded-lg border transition cursor-pointer ${
+                            isCurrent
+                                ? 'chunk-active'
+                                : 'border-transparent hover:bg-slate-800/80 hover:border-slate-700'
+                        } ${isWeak ? 'chunk-weak bg-amber-500/5' : ''}`;
+
+                        span.innerHTML = `
+                            <span class="text-base sm:text-lg font-medium text-slate-100">
+                                ${escapeHtml(item.en)}
+                                <span class="text-sky-400 font-bold mx-1">/</span>
+                            </span>
+                            <span class="jp-translation text-xs text-slate-400 font-serifjp ${showJapanese ? '' : 'hidden'}">
+                                ${escapeHtml(item.jp)}
+                            </span>
+                        `;
+                        inlineWrap.appendChild(span);
+                    });
+
+                    paraBlock.appendChild(inlineWrap);
+                    container.appendChild(paraBlock);
+                }
+            });
+        }
+
+        function updateHighlightInDOM() {
+            flatChunks.forEach((_, idx) => {
+                const el = document.getElementById(`chunk-el-${idx}`);
+                if (!el) return;
+                if (idx === activeChunkIndex) {
+                    el.classList.add('chunk-active');
+                } else {
+                    el.classList.remove('chunk-active');
+                }
+            });
+
+            const activeEl = document.getElementById(`chunk-el-${activeChunkIndex}`);
+            if (activeEl && isPlaying) {
+                const rect = activeEl.getBoundingClientRect();
+                const viewHeight = window.innerHeight;
+                if (rect.top < 90 || rect.bottom > viewHeight - 150) {
+                    activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateActiveChunkBar() {
+            const dot = document.getElementById('playingStatusDot');
+            const enEl = document.getElementById('activeChunkEn');
+            const jpEl = document.getElementById('activeChunkJp');
+            const progEl = document.getElementById('chunkProgressText');
+            const weakBtn = document.getElementById('activeWeakBtn');
+
+            if (flatChunks.length === 0) {
+                enEl.textContent = '表示できるチャンクがありません';
+                jpEl.textContent = '';
+                progEl.textContent = '0 / 0';
+                return;
+            }
+
+            const current = flatChunks[activeChunkIndex];
+            enEl.textContent = current.en + ' /';
+            jpEl.textContent = showJapanese ? current.jp : '';
+            progEl.textContent = `${activeChunkIndex + 1} / ${flatChunks.length}`;
+
+            if (isPlaying) {
+                dot.className = 'w-2.5 h-2.5 rounded-full bg-sky-400 animate-ping shrink-0';
+            } else {
+                dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-500 shrink-0';
+            }
+
+            if (weakChunkSet.has(current.id)) {
+                weakBtn.className = 'p-1 rounded hover:bg-slate-800 text-amber-400 transition';
+            } else {
+                weakBtn.className = 'p-1 rounded hover:bg-slate-800 text-slate-500 transition';
+            }
+        }
+
+        function updateChapterNavButtons() {
+            const prevBtn = document.getElementById('prevChapterBtn');
+            const nextBtn = document.getElementById('nextChapterBtn');
+            const isFirst = currentBookIdx === 0 && currentChapterIdx === 0;
+            const lastBook = STORY_BOOKS.length - 1;
+            const lastChap = STORY_BOOKS[lastBook].chapters.length - 1;
+            const isLast = currentBookIdx === lastBook && currentChapterIdx === lastChap;
+
+            prevBtn.disabled = isFirst;
+            nextBtn.disabled = isLast;
+        }
+
+        function changeChapter(delta) {
+            let b = currentBookIdx;
+            let c = currentChapterIdx + delta;
+            if (c < 0) {
+                if (b > 0) {
+                    b--;
+                    c = STORY_BOOKS[b].chapters.length - 1;
+                } else return;
+            } else if (c >= STORY_BOOKS[b].chapters.length) {
+                if (b < STORY_BOOKS.length - 1) {
+                    b++;
+                    c = 0;
+                } else return;
+            }
+            loadChapter(b, c);
+        }
+
+        // =========================================================================
+        // AUDIO & NATIVE TTS ENGINE (Browser SpeechSynthesis + Gemini TTS)
+        // =========================================================================
+        function initVoices() {
+            if (!('speechSynthesis' in window)) return;
+            const populate = () => {
+                const voices = window.speechSynthesis.getVoices();
+                // Filter English voices
+                availableVoices = voices.filter(v => v.lang.startsWith('en'));
+                // Rank natural / premium voices first
+                availableVoices.sort((a, b) => {
+                    const score = (v) => {
+                        let s = 0;
+                        if (v.name.includes('Natural') || v.name.includes('Online')) s += 5;
+                        if (v.name.includes('Google US English')) s += 4;
+                        if (v.name.includes('Samantha') || v.name.includes('Ava') || v.name.includes('Daniel')) s += 3;
+                        if (v.lang === 'en-US' || v.lang === 'en-GB') s += 2;
+                        return s;
+                    };
+                    return score(b) - score(a);
+                });
+
+                const select = document.getElementById('voiceSelect');
+                if (!select) return;
+                select.innerHTML = '<option value="">自動選択（最高品質のネイティブ英語ボイス）</option>';
+                availableVoices.forEach(v => {
+                    const opt = document.createElement('option');
+                    opt.value = v.voiceURI;
+                    opt.textContent = `${v.name} (${v.lang})`;
+                    select.appendChild(opt);
+                });
+            };
+            populate();
+            window.speechSynthesis.onvoiceschanged = populate;
+        }
+
+        function getBestBrowserVoice() {
+            if (selectedVoiceURI) {
+                const found = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
+                if (found) return found;
+            }
+            return availableVoices[0] || null;
+        }
+
+        function togglePlay() {
+            if (flatChunks.length === 0) return;
+            if (isPlaying) {
+                stopPlayback();
+            } else {
+                startPlayback();
+            }
+        }
+
+        function playFromChunk(index) {
+            activeChunkIndex = index;
+            updateHighlightInDOM();
+            updateActiveChunkBar();
+            startPlayback();
+        }
+
+        function playSingleChunkLoop(index) {
+            repeatMode = 'repeatOne';
+            updateRepeatModeUI();
+            playFromChunk(index);
+        }
+
+        function replayCurrentChunk() {
+            if (flatChunks.length === 0) return;
+            startPlayback();
+        }
+
+        function stepChunk(delta) {
+            if (flatChunks.length === 0) return;
+            const wasPlaying = isPlaying;
+            stopPlayback();
+            activeChunkIndex = Math.max(0, Math.min(flatChunks.length - 1, activeChunkIndex + delta));
+            updateHighlightInDOM();
+            updateActiveChunkBar();
+            if (wasPlaying) {
+                startPlayback();
+            }
+        }
+
+        function startPlayback() {
+            if (flatChunks.length === 0) return;
+            stopPlayback(false);
+            isPlaying = true;
+            currentPlaySession++;
+            const session = currentPlaySession;
+
+            document.getElementById('playPauseIcon').className = 'ph-fill ph-pause text-xl';
+            updateHighlightInDOM();
+            updateActiveChunkBar();
+
+            speakCurrentChunk(session);
+        }
+
+        function stopPlayback(resetUI = true) {
+            currentPlaySession++;
+            isPlaying = false;
+            if (activeTimer) {
+                clearTimeout(activeTimer);
+                activeTimer = null;
+            }
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            if (activeAudioElement) {
+                activeAudioElement.pause();
+                activeAudioElement = null;
+            }
+            if (resetUI) {
+                document.getElementById('playPauseIcon').className = 'ph-fill ph-play text-xl';
+                updateActiveChunkBar();
+            }
+        }
+
+        function cleanTextForSpeech(text) {
+            return text
+                .replace(/\.\s*\.\s*\./g, '...')
+                .replace(/["“”*]/g, '')
+                .replace(/—/g, ', ')
+                .trim();
+        }
+
+        async function speakCurrentChunk(session) {
+            if (!isPlaying || session !== currentPlaySession) return;
+            const chunk = flatChunks[activeChunkIndex];
+            if (!chunk) {
+                stopPlayback();
+                return;
+            }
+
+            const textToSpeak = cleanTextForSpeech(chunk.en);
+            const startTime = performance.now();
+
+            if (ttsEngine === 'gemini') {
+                await speakWithGeminiTTS(textToSpeak, session, startTime);
+            } else {
+                speakWithBrowserTTS(textToSpeak, session, startTime);
+            }
+        }
+
+        function speakWithBrowserTTS(text, session, startTime) {
+            if (!('speechSynthesis' in window)) {
+                stopPlayback();
+                return;
+            }
+            window.speechSynthesis.cancel();
+
+            const utter = new SpeechSynthesisUtterance(text);
+            const voice = getBestBrowserVoice();
+            if (voice) utter.voice = voice;
+            utter.lang = voice ? voice.lang : 'en-US';
+            utter.rate = playbackSpeed;
+            utter.pitch = 1.0;
+
+            utter.onend = () => {
+                if (session !== currentPlaySession || !isPlaying) return;
+                const elapsed = performance.now() - startTime;
+                scheduleNextChunk(session, elapsed);
+            };
+
+            utter.onerror = () => {
+                if (session !== currentPlaySession || !isPlaying) return;
+                scheduleNextChunk(session, 800);
+            };
+
+            window.speechSynthesis.speak(utter);
+        }
+
+        async function speakWithGeminiTTS(text, session, startTime) {
+            try {
+                let wavUrl = geminiAudioCache.get(text);
+                if (!wavUrl) {
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+                    const payload = {
+                        contents: [{ parts: [{ text: `Read naturally and clearly as a native English audiobook narrator: ${text}` }] }],
+                        generationConfig: {
+                            responseModalities: ["AUDIO"],
+                            speechConfig: {
+                                voiceConfig: {
+                                    prebuiltVoiceConfig: { voiceName: "Puck" }
+                                }
+                            }
+                        }
+                    };
+
+                    const res = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    const part = data?.candidates?.[0]?.content?.parts?.[0];
+                    const b64 = part?.inlineData?.data;
+                    const mime = part?.inlineData?.mimeType || "audio/L16;rate=24000";
+                    if (!b64) throw new Error("No audio returned");
+
+                    const rateMatch = mime.match(/rate=(\d+)/);
+                    const sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;
+                    const pcmBuffer = base64ToArrayBuffer(b64);
+                    const pcm16 = new Int16Array(pcmBuffer);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    wavUrl = URL.createObjectURL(wavBlob);
+                    geminiAudioCache.set(text, wavUrl);
+                }
+
+                if (session !== currentPlaySession || !isPlaying) return;
+
+                const audio = new Audio(wavUrl);
+                audio.playbackRate = playbackSpeed;
+                activeAudioElement = audio;
+
+                audio.onended = () => {
+                    if (session !== currentPlaySession || !isPlaying) return;
+                    const elapsed = (audio.duration * 1000) / playbackSpeed;
+                    scheduleNextChunk(session, elapsed || 900);
+                };
+                audio.onerror = () => {
+                    // Fallback to browser TTS if Gemini fails
+                    speakWithBrowserTTS(text, session, startTime);
+                };
+                await audio.play();
+            } catch (err) {
+                // Smooth fallback to Browser TTS
+                speakWithBrowserTTS(text, session, startTime);
+            }
+        }
+
+        function scheduleNextChunk(session, spokenDurationMs) {
+            if (session !== currentPlaySession || !isPlaying) return;
+
+            let delayMs = 380;
+            if (pauseMode === 'medium') delayMs = 1000;
+            else if (pauseMode === 'shadow') delayMs = Math.max(900, Math.min(3500, spokenDurationMs * 1.15));
+
+            activeTimer = setTimeout(() => {
+                if (session !== currentPlaySession || !isPlaying) return;
+
+                if (repeatMode === 'single') {
+                    stopPlayback();
+                    return;
+                }
+
+                if (repeatMode === 'repeatOne') {
+                    speakCurrentChunk(session);
+                    return;
+                }
+
+                // Continuous mode
+                if (activeChunkIndex < flatChunks.length - 1) {
+                    activeChunkIndex++;
+                    updateHighlightInDOM();
+                    updateActiveChunkBar();
+                    speakCurrentChunk(session);
+                } else {
+                    stopPlayback();
+                }
+            }, delayMs);
+        }
+
+        // =========================================================================
+        // CONTROLS & SETTINGS HANDLERS
+        // =========================================================================
+        function setSpeed(speed) {
+            playbackSpeed = speed;
+            document.querySelectorAll('.speed-btn').forEach(btn => {
+                const s = parseFloat(btn.getAttribute('data-speed'));
+                if (s === speed) {
+                    btn.className = 'speed-btn px-2 py-1 rounded-lg text-[11px] font-mono bg-sky-500/25 text-sky-300 font-bold border border-sky-500/40 transition';
+                } else {
+                    btn.className = 'speed-btn px-2 py-1 rounded-lg text-[11px] font-mono text-slate-400 hover:text-white transition';
+                }
+            });
+            if (activeAudioElement) {
+                activeAudioElement.playbackRate = speed;
+            } else if (isPlaying && ttsEngine === 'browser') {
+                // Restart current chunk at new speed
+                startPlayback();
+            }
+        }
+
+        function cycleRepeatMode() {
+            const order = ['continuous', 'repeatOne', 'single'];
+            const nextIdx = (order.indexOf(repeatMode) + 1) % order.length;
+            repeatMode = order[nextIdx];
+            updateRepeatModeUI();
+        }
+
+        function updateRepeatModeUI() {
+            const btn = document.getElementById('repeatModeBtn');
+            const icon = document.getElementById('repeatModeIcon');
+            const label = document.getElementById('repeatModeLabel');
+
+            if (repeatMode === 'continuous') {
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border border-sky-500/40 bg-sky-500/15 text-sky-300 hover:bg-sky-500/25 transition';
+                icon.className = 'ph-bold ph-arrows-clockwise text-sm';
+                label.textContent = '連続再生';
+            } else if (repeatMode === 'repeatOne') {
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border border-amber-500/50 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 transition';
+                icon.className = 'ph-bold ph-repeat-once text-sm';
+                label.textContent = '1チャンク反復リピート';
+            } else {
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
+                icon.className = 'ph-bold ph-play-circle text-sm';
+                label.textContent = '1チャンクずつ停止';
+            }
+        }
+
+        function cyclePauseInterval() {
+            const modes = ['short', 'medium', 'shadow'];
+            const next = modes[(modes.indexOf(pauseMode) + 1) % modes.length];
+            setPauseMode(next);
+        }
+
+        function setPauseMode(mode) {
+            pauseMode = mode;
+            const label = document.getElementById('pauseIntervalLabel');
+            if (mode === 'short') label.textContent = '間隔: 0.4秒';
+            else if (mode === 'medium') label.textContent = '間隔: 1.0秒';
+            else label.textContent = '間隔: 音読用自動';
+
+            const sBtn = document.getElementById('pauseShortBtn');
+            const mBtn = document.getElementById('pauseMedBtn');
+            const shBtn = document.getElementById('pauseShadowBtn');
+            const activeCls = 'py-2 px-3 rounded-lg border border-sky-500/40 bg-sky-500/20 text-sky-300 font-medium';
+            const idleCls = 'py-2 px-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-300';
+
+            if (sBtn) sBtn.className = mode === 'short' ? activeCls : idleCls;
+            if (mBtn) mBtn.className = mode === 'medium' ? activeCls : idleCls;
+            if (shBtn) shBtn.className = mode === 'shadow' ? activeCls : idleCls;
+        }
+
+        function toggleJapanese() {
+            showJapanese = !showJapanese;
+            const btn = document.getElementById('toggleJpBtn');
+            const txt = document.getElementById('jpBtnText');
+
+            if (showJapanese) {
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-sky-500/40 bg-sky-500/10 text-sky-300 hover:bg-sky-500/20 transition';
+                txt.textContent = '日本語訳 ON';
+            } else {
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800/70 text-slate-400 hover:text-slate-200 transition';
+                txt.textContent = '日本語訳 OFF';
+            }
+
+            document.querySelectorAll('.jp-translation').forEach(el => {
+                el.classList.toggle('hidden', !showJapanese);
+            });
+            updateActiveChunkBar();
+        }
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            const cBtn = document.getElementById('viewCardBtn');
+            const iBtn = document.getElementById('viewInlineBtn');
+            if (mode === 'card') {
+                cBtn.className = 'px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 font-medium transition flex items-center gap-1';
+                iBtn.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition flex items-center gap-1';
+            } else {
+                iBtn.className = 'px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 font-medium transition flex items-center gap-1';
+                cBtn.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition flex items-center gap-1';
+            }
+            renderReaderContent();
+        }
+
+        // =========================================================================
+        // WEAK CHUNK CHECKER FUNCTIONS
+        // =========================================================================
+        function toggleWeakById(chunkId) {
+            if (weakChunkSet.has(chunkId)) {
+                weakChunkSet.delete(chunkId);
+            } else {
+                weakChunkSet.add(chunkId);
+            }
+            if (filterWeakOnly) {
+                buildFlatChunks();
+            }
+            renderReaderContent();
+            renderSidebar();
+            updateActiveChunkBar();
+        }
+
+        function toggleCurrentChunkWeak() {
+            if (flatChunks.length === 0) return;
+            const current = flatChunks[activeChunkIndex];
+            toggleWeakById(current.id);
+        }
+
+        function toggleWeakFilter() {
+            stopPlayback();
+            filterWeakOnly = !filterWeakOnly;
+            const btn = document.getElementById('filterWeakBtn');
+            if (filterWeakOnly) {
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-amber-500/60 bg-amber-500/20 text-amber-200 transition';
+            } else {
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800/70 text-slate-300 hover:border-amber-500/50 transition';
+            }
+            activeChunkIndex = 0;
+            buildFlatChunks();
+            renderReaderContent();
+            updateActiveChunkBar();
+        }
+
+        function clearAllWeak() {
+            weakChunkSet.clear();
+            if (filterWeakOnly) {
+                toggleWeakFilter();
+            } else {
+                renderReaderContent();
+                renderSidebar();
+                updateActiveChunkBar();
+            }
+        }
+
+        // =========================================================================
+        // VOICE MODAL & HELPERS
+        // =========================================================================
+        function toggleVoiceModal() {
+            const modal = document.getElementById('voiceModal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        function changeTtsEngine(val) {
+            ttsEngine = val;
+            document.getElementById('browserVoiceSection').classList.toggle('opacity-40', val === 'gemini');
+        }
+
+        function selectBrowserVoice(uri) {
+            selectedVoiceURI = uri;
+        }
+
+        function setupKeyboardShortcuts() {
+            window.addEventListener('keydown', (e) => {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    togglePlay();
+                } else if (e.code === 'ArrowRight') {
+                    e.preventDefault();
+                    stepChunk(1);
+                } else if (e.code === 'ArrowLeft') {
+                    e.preventDefault();
+                    stepChunk(-1);
+                } else if (e.code === 'KeyR') {
+                    e.preventDefault();
+                    cycleRepeatMode();
+                }
+            });
+        }
+
+        function escapeHtml(str) {
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function pcmToWav(pcm16, sampleRate) {
+            const buffer = new ArrayBuffer(44 + pcm16.length * 2);
+            const view = new DataView(buffer);
+            const writeString = (offset, string) => {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            };
+            writeString(0, 'RIFF');
+            view.setUint32(4, 36 + pcm16.length * 2, true);
+            writeString(8, 'WAVE');
+            writeString(12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(36, 'data');
+            view.setUint32(40, pcm16.length * 2, true);
+            let offset = 44;
+            for (let i = 0; i < pcm16.length; i++, offset += 2) {
+                view.setUint16(offset, pcm16[i], true);
+            }
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+    </script>
+</body>
+</html>
